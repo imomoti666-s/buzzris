@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.25 PWA Trial</title>
+  <title>バズリス v0.26 Save Update PWA</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -129,6 +129,10 @@
 
     .home-actions .wide {
       grid-column: span 2;
+    }
+
+    .home-actions .action-btn {
+      min-height: 48px;
     }
 
     .section-title {
@@ -2471,7 +2475,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.25 / PWA trial</span>
+          <span>v0.26 / save + update</span>
         </div>
         <span>HOME</span>
       </div>
@@ -2536,6 +2540,9 @@
             <button class="action-btn primary wide" id="startRunBtn" type="button">このデッキで潜る</button>
             <button class="action-btn" id="autoDeckBtn" type="button">自動編成</button>
             <button class="action-btn danger" id="resetSaveBtn" type="button">保存リセット</button>
+            <button class="action-btn" id="saveExportBtn" type="button">セーブ書出</button>
+            <button class="action-btn" id="saveImportBtn" type="button">セーブ読込</button>
+            <button class="action-btn gold wide" id="updateAppBtn" type="button">最新版に更新</button>
           </div>
           <div style="color: var(--muted); font-size: 12px; line-height: 1.5;">
             標準は<strong>基本7枚 + 持ち込み3〜8枚</strong>。自由は従来通り<strong>10〜15枚すべて持ち込み</strong>。<br>
@@ -2680,7 +2687,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.25 / PWA trial</span>
+          <span>v0.26 / save + update</span>
         </div>
         <span id="runInfo">AREA 1</span>
       </div>
@@ -4045,6 +4052,100 @@
 
       function saveNow() {
         localStorage.setItem(SAVE_KEY, JSON.stringify(save));
+      }
+
+      function saveExportPayload() {
+        return {
+          app: "buzzris",
+          version: "v0.26",
+          saveKey: SAVE_KEY,
+          exportedAt: new Date().toISOString(),
+          save
+        };
+      }
+
+      function safeDateStamp() {
+        const d = new Date();
+        const pad = n => String(n).padStart(2, "0");
+        return [
+          d.getFullYear(),
+          pad(d.getMonth() + 1),
+          pad(d.getDate())
+        ].join("") + "_" + [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join("");
+      }
+
+      function exportSaveData() {
+        try {
+          const payload = saveExportPayload();
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "buzzris_save_" + safeDateStamp() + ".json";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          toast("セーブを書き出した。", "phase");
+        } catch (err) {
+          console.error(err);
+          alert("セーブ書き出しに失敗した。");
+        }
+      }
+
+      function importSaveData() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json,application/json";
+        input.addEventListener("change", async () => {
+          const file = input.files && input.files[0];
+          if (!file) return;
+          try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+            const imported = data && data.save ? data.save : data;
+            if (!imported || typeof imported !== "object") throw new Error("invalid save");
+            if (!confirm("現在のセーブを読み込んだデータで上書きするか？")) return;
+            save = normalizeSave(imported);
+            saveNow();
+            renderHome();
+            toast("セーブを読み込んだ。", "phase");
+            alert("セーブ読み込み完了。");
+          } catch (err) {
+            console.error(err);
+            alert("セーブ読み込みに失敗した。JSONファイルを確認してくれ。");
+          }
+        });
+        input.click();
+      }
+
+      async function updatePwaApp() {
+        if (!confirm("最新版を取得するか？\nセーブデータは localStorage に残る。")) return;
+        try {
+          toast("更新キャッシュを整理中...", "phase");
+
+          if ("serviceWorker" in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(reg => reg.update().catch(() => null)));
+          }
+
+          if ("caches" in window) {
+            const keys = await caches.keys();
+            await Promise.all(
+              keys
+                .filter(key => key.startsWith("buzzris-"))
+                .map(key => caches.delete(key))
+            );
+          }
+
+          localStorage.setItem("buzzris_last_manual_update", new Date().toISOString());
+          const base = location.origin + location.pathname.replace(/index\.html$/, "");
+          location.href = base + "?update=" + Date.now();
+        } catch (err) {
+          console.error(err);
+          alert("更新処理に失敗した。通常リロードを試す。");
+          location.reload();
+        }
       }
 
       function getOwnedCard(uid) {
@@ -6992,6 +7093,9 @@
           renderHome();
         }
       });
+      document.getElementById("saveExportBtn")?.addEventListener("click", exportSaveData);
+      document.getElementById("saveImportBtn")?.addEventListener("click", importSaveData);
+      document.getElementById("updateAppBtn")?.addEventListener("click", updatePwaApp);
 
       el.hand.addEventListener("pointerdown", onPointerDown);
       window.addEventListener("pointermove", onPointerMove, { passive: false });

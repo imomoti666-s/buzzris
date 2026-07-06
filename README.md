@@ -1,9 +1,24 @@
-# バズリス v0.25 PWA Trial
+# バズリス v0.26 Save + Update PWA
 
-このフォルダをHTTPSまたはlocalhostで配信すると、PWAとしてインストール候補にできます。
+## 更新内容
+- セーブ書出ボタン
+- セーブ読込ボタン
+- 最新版に更新ボタン
+- Service Worker cache name を v0.26 に更新
 
-## 推奨
-GitHub Pages / Netlify / Cloudflare Pages などにこのフォルダの中身を置いて、スマホChromeで開いてください。
+## GitHubへ上げる場所
+リポジトリ buzzris のルートに以下を上書きしてください。
+
+- index.html
+- manifest.webmanifest
+- service-worker.js
+- README.md
+
+icons フォルダ内には以下を上書きしてください。
+
+- icon-192.png
+- icon-512.png
+- icon-maskable-512.png
 
 ## 注意
-content:// や file:// で直接開くと、ゲーム自体は動いても Service Worker とPWAインストールは安定して動きません。
+PWAで古い表示が残る場合は、ゲーム内の「最新版に更新」を押してください。
