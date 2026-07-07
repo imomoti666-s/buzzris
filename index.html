@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.26.1 Swipe + Battle UI</title>
+  <title>バズリス v0.26.2 Safe Modal Notice</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -2600,6 +2600,34 @@
       display: none;
     }
 
+  
+    /* v0.26.2: in-game notice modal */
+    .notice-panel {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+
+    .notice-line {
+      border-radius: 13px;
+      padding: 10px 11px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #eaffef;
+      font-size: 14px;
+      font-weight: 850;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .notice-sub {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin-top: -2px;
+    }
+
   </style>
 </head>
 <body>
@@ -2608,7 +2636,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.26.1 / swipe + battle UI</span>
+          <span>v0.26.2 / safe modal + notice</span>
         </div>
         <span>HOME</span>
       </div>
@@ -2820,7 +2848,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.26.1 / swipe + battle UI</span>
+          <span>v0.26.2 / safe modal + notice</span>
         </div>
         <span id="runInfo">AREA 1</span>
       </div>
@@ -7895,6 +7923,61 @@
         el.homeTabDeck.addEventListener("pointerup", deckGestureUp);
         el.homeTabDeck.addEventListener("pointercancel", deckGestureUp);
       }
+
+
+      /* v0.26.2: prevent same tap from opening detail and pressing its lower buttons */
+      let buzzrisModalOpenedAt = 0;
+      const buzzrisOriginalOpenModal = openModal;
+      openModal = function() {
+        buzzrisModalOpenedAt = Date.now();
+        buzzrisOriginalOpenModal();
+      };
+
+      function buzzrisModalFreshlyOpened() {
+        return Date.now() - buzzrisModalOpenedAt < 520;
+      }
+
+      el.modal.addEventListener("click", e => {
+        if (!buzzrisModalFreshlyOpened()) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }, true);
+
+      function showGameNotice(title, message, sub = "") {
+        const lines = String(message ?? "").split("\n").filter(line => line.trim() !== "");
+        const body = lines.length ? lines : ["完了した。"];
+        el.modal.innerHTML = `
+          <h2>${escapeHtml(title || "通知")}</h2>
+          <div class="notice-panel">
+            ${body.map(line => `<div class="notice-line">${escapeHtml(line)}</div>`).join("")}
+            ${sub ? `<div class="notice-sub">${escapeHtml(sub)}</div>` : ""}
+          </div>
+          <div class="modal-actions">
+            <button class="action-btn primary" data-close-notice type="button">OK</button>
+          </div>
+        `;
+        openModal();
+      }
+
+      el.modal.addEventListener("click", e => {
+        const closeNotice = e.target.closest("[data-close-notice]");
+        if (closeNotice) {
+          closeModal();
+          renderHome();
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+
+      window.alert = function(message) {
+        const text = String(message ?? "");
+        let title = "通知";
+        if (text.startsWith("生成：")) title = "生成完了";
+        if (text.startsWith("合成成功：")) title = "合成完了";
+        if (text.includes("足り")) title = "不足";
+        if (text.includes("失敗")) title = "失敗";
+        showGameNotice(title, text, "ブラウザ警告ではなく、ゲーム内通知で表示している。");
+      };
 
       save = loadSave();
       saveNow();

@@ -1,4 +1,4 @@
-const CACHE_NAME = "buzzris-v0-26-1-swipe-battle-ui";
+const CACHE_NAME = "buzzris-v0-26-2-safe-modal-notice";
 const ASSETS = [
   "./",
   "./index.html",
