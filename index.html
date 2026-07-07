@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.26 Save Update PWA</title>
+  <title>バズリス v0.26.1 Swipe + Battle UI</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -2467,7 +2467,140 @@
         font-weight: 800;
       }
 
-    </style>
+    
+    /* v0.26.1: deck swipe + battle card information cleanup */
+    .deck-edit-card[data-edit-card] {
+      touch-action: pan-y;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+      min-height: 168px;
+    }
+
+    .deck-edit-card[data-edit-card].gesture-drag {
+      transition: none;
+      z-index: 5;
+    }
+
+    .deck-edit-card[data-edit-zone="collection"].swipe-ready {
+      border-color: rgba(118,255,159,.8);
+      box-shadow: 0 0 0 2px rgba(118,255,159,.18), 0 12px 24px rgba(0,0,0,.35);
+    }
+
+    .deck-edit-card[data-edit-zone="deck"].swipe-ready {
+      border-color: rgba(255,111,141,.82);
+      box-shadow: 0 0 0 2px rgba(255,111,141,.18), 0 12px 24px rgba(0,0,0,.35);
+    }
+
+    .deck-edit-card[data-edit-card]::after {
+      content: attr(data-gesture-label);
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 8px;
+      z-index: 2;
+      color: rgba(255,255,255,.58);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .02em;
+      text-align: left;
+      pointer-events: none;
+    }
+
+    .deck-edit-card[data-edit-zone="collection"].swipe-ready::after {
+      content: "→ 投入";
+      color: #baffca;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .deck-edit-card[data-edit-zone="deck"].swipe-ready::after {
+      content: "← 外す";
+      color: #ffd6df;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .deck-edit-card .deck-edit-controls {
+      display: none !important;
+    }
+
+    .deck-edit-card .card-instance-id {
+      display: none !important;
+    }
+
+    .deck-edit-card .deck-edit-count {
+      position: absolute;
+      right: 8px;
+      bottom: 7px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .deck-edit-card .deck-edit-effects {
+      margin-bottom: 24px;
+    }
+
+    .deck-edit-card .deck-edit-effect {
+      padding: 4px 4px;
+      font-size: 9px;
+      line-height: 1.15;
+    }
+
+    .deck-edit-card .relic-bar {
+      margin: 3px 0 5px;
+    }
+
+    .deck-edit-card.base-card::after {
+      content: "基本札";
+      color: rgba(255,216,111,.75);
+    }
+
+    .effect-pill.clean-row,
+    .relic-effect-pill.clean-row,
+    .card-score-preview.clean-score {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      text-align: left;
+    }
+
+    .effect-pill.clean-row b,
+    .relic-effect-pill.clean-row b,
+    .card-score-preview.clean-score b {
+      flex: 0 0 auto;
+      font-size: 8px;
+      color: rgba(255,255,255,.58);
+      font-weight: 950;
+    }
+
+    .effect-pill.clean-row span,
+    .relic-effect-pill.clean-row span,
+    .card-score-preview.clean-score span {
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+      font-weight: 950;
+    }
+
+    .effect-pill.condition-row {
+      background: rgba(255,216,111,.10);
+      border-color: rgba(255,216,111,.18);
+      color: #fff2bb;
+    }
+
+    .card-score-preview.clean-score {
+      padding: 4px 6px;
+    }
+
+    .card-score-preview.clean-score small {
+      display: none;
+    }
+
+  </style>
 </head>
 <body>
   <main class="app">
@@ -2475,7 +2608,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.26 / save + update</span>
+          <span>v0.26.1 / swipe + battle UI</span>
         </div>
         <span>HOME</span>
       </div>
@@ -2576,13 +2709,13 @@
       <section class="home-tab-panel" id="homeTabDeck">
         <div class="section-title">
           <span>現在の初期デッキ</span>
-          <span id="deckListSub">−で抜く</span>
+          <span id="deckListSub">タップ詳細 / 左スワイプで外す</span>
         </div>
         <section class="card-grid" id="deckList"></section>
 
         <div class="section-title">
           <span>カード所持庫</span>
-          <span>＋で投入</span>
+          <span>タップ詳細 / 右スワイプで投入</span>
         </div>
         <section class="card-grid" id="collectionList"></section>
       </section>
@@ -2687,7 +2820,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.26 / save + update</span>
+          <span>v0.26.1 / swipe + battle UI</span>
         </div>
         <span id="runInfo">AREA 1</span>
       </div>
@@ -4256,7 +4389,7 @@
             : `標準：${chosen.name}の基本7枚 + 持ち込み3〜8枚。現在 持ち込み${carryCount}枚 / 合計${totalDeckCount}枚。`;
         }
         if (el.deckListSub) {
-          el.deckListSub.textContent = deckMode() === "free" ? "10〜15枚 / −で抜く" : `${chosen.name}の基本札 + 持込枠`;
+          el.deckListSub.textContent = deckMode() === "free" ? "tap詳細 / 左スワイプで外す" : `${chosen.name}基本札 + 持込 / 左スワイプで外す`;
         }
         el.deckModeButtons.forEach(b => b.classList.toggle("active", b.dataset.deckMode === deckMode()));
 
@@ -7541,6 +7674,227 @@
           </article>
         `;
       };
+
+
+      /* v0.26.1: battle card role rows */
+      function splitBattleUtilityRows(meta) {
+        const conditions = [];
+        const supports = [];
+        (meta.utility || []).forEach(item => {
+          if (String(item).startsWith("条件")) conditions.push(String(item).replace(/^条件/, ""));
+          else supports.push(item);
+        });
+        return { conditions, supports };
+      }
+
+      function battleRow(label, body, cls = "") {
+        if (!body) return "";
+        return `<div class="effect-pill clean-row ${cls}"><b>${escapeHtml(label)}</b><span>${escapeHtml(body)}</span></div>`;
+      }
+
+      scorePreviewHtml = function(card) {
+        const preview = scorePreviewForCard(card);
+        if (!preview) return "";
+        const doubleText = preview.doubled ? "×2 " : "";
+        const baseLine = `基本${fmt(preview.base)}+成長${fmt(preview.strengthen)}`;
+        const title = `予測：${fmt(preview.predicted)} / ${baseLine}${preview.multiplier > 1 ? " / 反応×" + preview.multiplier.toFixed(2) : ""}`;
+        return `<div class="card-score-preview clean-score" title="${escapeHtml(title)}"><b>予測</b><span>${doubleText}👍${fmt(preview.predicted)}</span></div>`;
+      };
+
+      cardEffectPillsHtml = function(card) {
+        const meta = deriveCompactCardMeta(card);
+        const rows = [];
+        const directSummary = compactTokenSummary(meta.directTokens);
+        const directParts = [];
+        if (directSummary) directParts.push(directSummary);
+        (meta.directLabels || []).forEach(x => directParts.push(x));
+        if (directParts.length) rows.push(battleRow("獲得", directParts.join(" / "), "direct-row"));
+
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) rows.push(battleRow("補助", split.supports.join(" / "), "support-row"));
+        if (split.conditions.length) rows.push(battleRow("条件", split.conditions.join(" / "), "condition-row"));
+
+        return rows.join("");
+      };
+
+      cardRelicEffectHtml = function(card, showEmpty = false) {
+        const summary = compactPreviewSummary(previewExtraTokenMap(card), 3);
+        if (!summary) {
+          return showEmpty ? `<div class="relic-effect-box"><div class="relic-effect-pill empty">🧩なし</div></div>` : "";
+        }
+        return `
+          <div class="relic-effect-box">
+            <div class="relic-effect-pill clean-row"><b>予測</b><span>${escapeHtml("🧩 " + summary)}</span></div>
+          </div>
+        `;
+      };
+
+      /* v0.26.1: deck edit cards are tap-detail / swipe-action */
+      function deckListSummaryPills(card, limit = 2) {
+        const meta = deriveCompactCardMeta(card);
+        const pieces = [];
+        const direct = compactTokenSummary(meta.directTokens);
+        if (scorePreviewForCard && false) {}
+        if (direct) pieces.push("獲得 " + direct);
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) pieces.push(split.supports.slice(0, 2).join(" / "));
+        if (split.conditions.length) pieces.push("条件 " + split.conditions.slice(0, 2).join(" / "));
+        if (!pieces.length) {
+          const effects = displayEffectTexts(card).filter(e => !String(e).includes("👍")).slice(0, limit);
+          pieces.push(...effects);
+        }
+        return pieces.slice(0, limit).map(e => `<div class="deck-edit-effect">${escapeHtml(e)}</div>`).join("");
+      }
+
+      editCardHtml = function(inst, mode) {
+        const c = cardById(inst.baseId);
+        const isDeck = mode === "deck";
+        const inDeck = save.deckInstances.includes(inst.uid);
+        const canAdd = !inDeck && save.deckInstances.length < deckCarryMax();
+        const slots = usedSlots(inst);
+        const filled = Math.min(5, slots);
+        const relicDots = Array.from({length:5}, (_, i) => `<span class="relic-dot ${i < filled ? "filled" : ""}"></span>`).join("");
+        const label = isDeck ? "tap 詳細 / ←外す" : (canAdd ? "tap 詳細 / →投入" : "tap 詳細 / 満枠");
+        return `
+          <article class="deck-edit-card ${slots > 0 ? "relic-equipped" : ""}"
+            data-edit-card="${escapeHtml(inst.uid)}"
+            data-edit-zone="${isDeck ? "deck" : "collection"}"
+            data-can-add="${canAdd ? "1" : "0"}"
+            data-gesture-label="${escapeHtml(label)}">
+            <div class="deck-edit-icon">${escapeHtml(c.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(c.name)}</div>
+              <div class="deck-edit-cost">⚡${c.cost}${cardExtraCostText(c)}</div>
+            </div>
+            <div class="relic-bar">${relicDots}</div>
+            <div class="deck-edit-effects">
+              ${deckListSummaryPills(c)}
+            </div>
+            <div class="deck-edit-count"><span class="relic-tag">${slots}/5</span></div>
+          </article>
+        `;
+      };
+
+      baseDeckCardHtml = function(id, index) {
+        const c = cardById(id);
+        if (!c) return "";
+        return `
+          <article class="deck-edit-card base-card">
+            <div class="deck-edit-icon">${escapeHtml(c.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(c.name)}</div>
+              <div class="deck-edit-cost">⚡${c.cost}${cardExtraCostText(c)}</div>
+            </div>
+            <div class="relic-bar">${Array.from({length:5}, () => `<span class="relic-dot"></span>`).join("")}</div>
+            <div class="deck-edit-effects">
+              ${deckListSummaryPills(c)}
+            </div>
+            <div class="deck-edit-count"><span class="relic-tag">BASE</span></div>
+          </article>
+        `;
+      };
+
+      function addDeckCardByUid(uid) {
+        if (!uid) return false;
+        if (save.deckInstances.length >= deckCarryMax()) {
+          toast("持ち込み枠が満杯だ。", "phase");
+          return false;
+        }
+        if (save.deckInstances.includes(uid)) return false;
+        save.deckInstances.push(uid);
+        saveNow();
+        renderHome();
+        toast("デッキに投入した。", "phase");
+        return true;
+      }
+
+      function removeDeckCardByUid(uid) {
+        if (!uid || !save.deckInstances.includes(uid)) return false;
+        save.deckInstances = save.deckInstances.filter(x => x !== uid);
+        saveNow();
+        renderHome();
+        toast("デッキから外した。", "phase");
+        return true;
+      }
+
+      let deckGesture = null;
+
+      function deckGestureDown(e) {
+        const card = e.target.closest("[data-edit-card]");
+        if (!card || !el.homeTabDeck.contains(card)) return;
+        if (e.target.closest("button, select, input, textarea, a")) return;
+        deckGesture = {
+          card,
+          uid: card.dataset.editCard,
+          zone: card.dataset.editZone,
+          startX: e.clientX,
+          startY: e.clientY,
+          dx: 0,
+          dy: 0,
+          active: false,
+          pointerId: e.pointerId
+        };
+        card.setPointerCapture?.(e.pointerId);
+      }
+
+      function deckGestureMove(e) {
+        if (!deckGesture) return;
+        const g = deckGesture;
+        g.dx = e.clientX - g.startX;
+        g.dy = e.clientY - g.startY;
+
+        if (!g.active && Math.abs(g.dx) > 12 && Math.abs(g.dx) > Math.abs(g.dy) * 1.2) {
+          g.active = true;
+          g.card.classList.add("gesture-drag");
+        }
+
+        if (!g.active) return;
+
+        const limit = Math.max(-86, Math.min(86, g.dx));
+        g.card.style.transform = `translateX(${limit}px)`;
+        const ready = (g.zone === "collection" && g.dx > 56 && g.card.dataset.canAdd === "1") ||
+                      (g.zone === "deck" && g.dx < -56);
+        g.card.classList.toggle("swipe-ready", ready);
+        e.preventDefault();
+      }
+
+      function deckGestureUp(e) {
+        if (!deckGesture) return;
+        const g = deckGesture;
+        const wasActive = g.active;
+        const dx = g.dx;
+        const uid = g.uid;
+        const zone = g.zone;
+        const card = g.card;
+
+        card.releasePointerCapture?.(g.pointerId);
+        card.classList.remove("gesture-drag", "swipe-ready");
+        card.style.transform = "";
+        deckGesture = null;
+
+        if (wasActive) {
+          if (zone === "collection" && dx > 56) {
+            addDeckCardByUid(uid);
+            return;
+          }
+          if (zone === "deck" && dx < -56) {
+            removeDeckCardByUid(uid);
+            return;
+          }
+          return;
+        }
+
+        if (Math.abs(dx) < 8 && Math.abs(g.dy) < 8) {
+          openCardDetail(uid);
+        }
+      }
+
+      if (el.homeTabDeck) {
+        el.homeTabDeck.addEventListener("pointerdown", deckGestureDown);
+        el.homeTabDeck.addEventListener("pointermove", deckGestureMove, { passive: false });
+        el.homeTabDeck.addEventListener("pointerup", deckGestureUp);
+        el.homeTabDeck.addEventListener("pointercancel", deckGestureUp);
+      }
 
       save = loadSave();
       saveNow();

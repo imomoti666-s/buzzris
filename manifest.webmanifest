@@ -1,7 +1,7 @@
 {
   "name": "バズリス",
   "short_name": "バズリス",
-  "description": "バズリス v0.26 save/update PWA",
+  "description": "バズリス v0.26.1 swipe/battle UI PWA",
   "lang": "ja",
   "start_url": "./index.html",
   "scope": "./",
