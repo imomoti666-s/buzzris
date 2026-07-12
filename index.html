@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.27.3 ACTION FLOW</title>
+  <title>バズリス v0.27.6 FIXED DOCK</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -2968,7 +2968,7 @@
 
   
     /* ======================================================
-       v0.27.3 ACTION FLOW
+       v0.27.6 FIXED DOCK
        Constant flashes removed. Ambient motion added.
        ====================================================== */
 
@@ -3180,7 +3180,7 @@
 
   
     /* ======================================================
-       v0.27.3 ACTION FLOW
+       v0.27.6 FIXED DOCK
        Background depth + card cast + stronger token travel
        ====================================================== */
 
@@ -3397,7 +3397,7 @@
       transform: translate3d(var(--from-x), var(--from-y), 0) scale(1);
       filter: drop-shadow(0 10px 22px rgba(0,0,0,.36));
       will-change: transform, opacity;
-      animation: afCardCast .26s cubic-bezier(.22,.84,.24,1) forwards;
+      animation: afCardCast .21s cubic-bezier(.22,.84,.24,1) forwards;
     }
 
     @keyframes afCardCast {
@@ -3510,7 +3510,1289 @@
         animation: none !important;
       }
     }
-    /* END v0.27.3 ACTION FLOW */
+    /* END v0.27.6 FIXED DOCK */
+
+  
+    /* ======================================================
+       v0.27.6 FIXED DOCK
+       ====================================================== */
+
+    :root {
+      --buzz-vh: 100dvh;
+    }
+
+    body.game-active {
+      height: var(--buzz-vh);
+      min-height: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body.game-active .app {
+      width: min(100%, 540px);
+      height: var(--buzz-vh);
+      min-height: 0;
+      padding:
+        max(4px, env(safe-area-inset-top))
+        6px
+        max(4px, env(safe-area-inset-bottom));
+      overflow: hidden;
+    }
+
+    #gameScreen.active {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    #gameScreen.active > * {
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    #gameScreen > .title {
+      min-height: 30px;
+      margin: 0;
+      align-items: center;
+    }
+
+    #gameScreen > .title h1 {
+      font-size: 15px;
+      line-height: 1;
+      letter-spacing: .06em;
+    }
+
+    #gameScreen > .title > div:first-child > span {
+      display: none;
+    }
+
+    #gameScreen .title-tools {
+      margin-left: auto;
+    }
+
+    #gameScreen .fx-toggle {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    #gameScreen .title-context {
+      max-width: 90px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen .run-character-strip {
+      min-height: 34px;
+      margin: 0;
+      padding: 3px 6px;
+      border-radius: 11px;
+      gap: 6px;
+    }
+
+    #gameScreen .run-character-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      align-self: center;
+    }
+
+    #gameScreen .run-character-name {
+      font-size: 10px;
+      line-height: 1.05;
+    }
+
+    #gameScreen .run-character-passive {
+      max-width: 100%;
+      margin-top: 1px;
+      font-size: 8px;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen .stage-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "name target"
+        "score turn"
+        "bar bar";
+      align-items: center;
+      gap: 2px 6px;
+      min-height: 62px;
+      margin: 0;
+      padding: 6px 8px;
+      border-radius: 13px;
+    }
+
+    #gameScreen .stage-row {
+      display: contents;
+      margin: 0;
+    }
+
+    #gameScreen .stage-name {
+      grid-area: name;
+      font-size: 12px;
+    }
+
+    #gameScreen #targetText {
+      grid-area: target;
+    }
+
+    #gameScreen #turnText {
+      grid-area: turn;
+      justify-self: end;
+    }
+
+    #gameScreen .score-label {
+      display: none;
+    }
+
+    #gameScreen .score-big {
+      grid-area: score;
+      margin: 0;
+      font-size: 25px;
+      line-height: .95;
+    }
+
+    #gameScreen .badge {
+      padding: 3px 7px;
+      font-size: 9px;
+    }
+
+    #gameScreen .bar-wrap {
+      grid-area: bar;
+      height: 8px;
+      margin: 1px 0 0;
+    }
+
+    #gameScreen .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 3px;
+      margin: 0;
+    }
+
+    #gameScreen .stat {
+      min-height: 34px;
+      padding: 3px 5px;
+      border-radius: 9px;
+    }
+
+    #gameScreen .stat .k {
+      margin-bottom: 0;
+      font-size: 7px;
+      line-height: 1.05;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen .stat .v {
+      font-size: 12px;
+      line-height: 1.05;
+    }
+
+    #gameScreen .buff-panel {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 4px;
+      min-height: 0;
+      max-height: 29px;
+      margin: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .buff-panel:empty {
+      display: none;
+    }
+
+    #gameScreen .buff-panel::-webkit-scrollbar,
+    #gameScreen .signal-list::-webkit-scrollbar,
+    #gameScreen .hand-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    #gameScreen .buff-chip {
+      flex: 0 0 auto;
+      min-height: 25px;
+      max-width: 190px;
+      padding: 4px 7px;
+      border-radius: 9px;
+      font-size: 9px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen .signal-panels {
+      min-height: 0;
+      max-height: 29px;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #gameScreen .signal-box {
+      height: 29px;
+      padding: 3px 5px;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    #gameScreen .signal-head {
+      display: none;
+    }
+
+    #gameScreen .signal-list {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 4px;
+      height: 100%;
+      align-items: center;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .signal-chip {
+      flex: 0 0 auto;
+      padding: 4px 7px;
+      font-size: 8px;
+      white-space: nowrap;
+    }
+
+    #gameScreen .board {
+      position: relative;
+      min-height: 43px;
+      height: 43px;
+      margin: 0;
+      padding: 4px 7px;
+      border-radius: 12px;
+    }
+
+    #gameScreen .board::after {
+      content: "POST NODE";
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      color: rgba(118,255,159,.20);
+      font-size: 9px;
+      font-weight: 1000;
+      letter-spacing: .18em;
+      pointer-events: none;
+    }
+
+    #gameScreen .board.ready::after {
+      color: rgba(118,255,159,.62);
+    }
+
+    #gameScreen .board-title {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 2px;
+      font-size: 8px;
+      letter-spacing: .04em;
+    }
+
+    #gameScreen .drop-hint {
+      font-size: 8px;
+    }
+
+    #gameScreen .played-list {
+      position: relative;
+      z-index: 2;
+      min-height: 17px;
+      height: 17px;
+      flex-wrap: nowrap;
+      gap: 3px;
+      overflow: hidden;
+    }
+
+    #gameScreen .played-chip {
+      flex: 0 0 auto;
+      max-width: 150px;
+      padding: 3px 6px;
+      font-size: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen > .section-title {
+      min-height: 15px;
+      margin: 0 2px;
+      font-size: 9px;
+      line-height: 1;
+      letter-spacing: .04em;
+    }
+
+    #gameScreen .hand-wrap {
+      flex: 1 1 auto;
+      min-height: 100px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 0 2px;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .hand {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      width: max-content;
+      height: 100%;
+      min-height: 0;
+      padding: 1px 2px 2px;
+    }
+
+    #gameScreen .card {
+      width: auto;
+      min-width: 82px;
+      max-width: 112px;
+      height: calc(100% - 3px);
+      aspect-ratio: 3 / 4;
+      padding: 6px;
+      border-radius: 12px;
+    }
+
+    #gameScreen .card-icon {
+      top: 21px;
+      font-size: 31px;
+    }
+
+    #gameScreen .card-top {
+      min-height: 31px;
+      margin-bottom: 3px;
+    }
+
+    #gameScreen .card-name {
+      font-size: 10px;
+      line-height: 1.08;
+    }
+
+    #gameScreen .card-cost {
+      padding: 3px 5px;
+      font-size: 9px;
+    }
+
+    #gameScreen .card-score-preview,
+    #gameScreen .effect-pill,
+    #gameScreen .relic-effect-pill {
+      min-height: 18px;
+      padding: 3px 4px;
+      font-size: 8px;
+      line-height: 1.05;
+    }
+
+    #gameScreen .card-score-preview.clean-score b,
+    #gameScreen .effect-pill.clean-row b,
+    #gameScreen .relic-effect-pill.clean-row b {
+      font-size: 7px;
+    }
+
+    #gameScreen .card-gesture-hint,
+    #gameScreen .card-instance-id {
+      display: none !important;
+    }
+
+    #gameScreen .actions {
+      display: grid;
+      grid-template-columns: 1fr minmax(74px, .42fr);
+      gap: 4px;
+      min-height: 39px;
+      margin: 0;
+    }
+
+    #gameScreen .actions .action-btn {
+      min-height: 39px;
+      padding: 7px 8px;
+      border-radius: 11px;
+      font-size: 12px;
+    }
+
+    body.game-active .drawer-fab,
+    body.game-active .log-fab {
+      width: 39px;
+      height: 39px;
+      bottom: calc(max(4px, env(safe-area-inset-bottom)) + 43px);
+      border-radius: 13px;
+      font-size: 17px;
+    }
+
+    body.game-active .drawer-fab {
+      right: 7px;
+    }
+
+    body.game-active .log-fab {
+      left: 7px;
+    }
+
+    /* Short displays compress nonessential identity information first. */
+    body.game-short #gameScreen .run-character-strip {
+      min-height: 25px;
+      height: 25px;
+      padding: 2px 5px;
+    }
+
+    body.game-short #gameScreen .run-character-avatar {
+      width: 21px;
+      height: 21px;
+    }
+
+    body.game-short #gameScreen .run-character-passive {
+      display: none;
+    }
+
+    body.game-short #gameScreen .stage-panel {
+      min-height: 55px;
+      padding: 4px 7px;
+    }
+
+    body.game-short #gameScreen .score-big {
+      font-size: 22px;
+    }
+
+    body.game-short #gameScreen .stat {
+      min-height: 30px;
+      padding: 2px 4px;
+    }
+
+    body.game-short #gameScreen .board {
+      min-height: 38px;
+      height: 38px;
+    }
+
+    body.game-short #gameScreen .hand-wrap {
+      min-height: 90px;
+    }
+
+    body.game-very-short #gameScreen .run-character-strip {
+      display: none;
+    }
+
+    body.game-very-short #gameScreen .signal-panels {
+      max-height: 25px;
+    }
+
+    body.game-very-short #gameScreen .signal-box {
+      height: 25px;
+    }
+
+    body.game-very-short #gameScreen .buff-panel {
+      max-height: 25px;
+    }
+
+    body.game-very-short #gameScreen .buff-chip {
+      min-height: 22px;
+    }
+
+    /* Stronger score hierarchy */
+    #gameScreen .score-big.af-score-counting {
+      color: #fff2a8;
+      text-shadow: 0 0 18px rgba(255,216,111,.55);
+    }
+
+    #gameScreen .bar-wrap.af-score-rail {
+      box-shadow: 0 0 16px rgba(255,216,111,.28);
+    }
+
+    /* Local critical notices, instead of repeated central banners */
+    .buzz-mini-notice {
+      position: fixed;
+      z-index: 4090;
+      max-width: min(78vw, 280px);
+      padding: 7px 10px;
+      border-radius: 999px;
+      transform: translate(-50%, -50%) scale(.82);
+      opacity: 0;
+      pointer-events: none;
+      background: rgba(5,18,14,.94);
+      border: 1px solid rgba(118,255,159,.36);
+      color: #eaffef;
+      box-shadow: 0 10px 28px rgba(0,0,0,.38);
+      font-size: 11px;
+      font-weight: 1000;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      animation: buzzMiniIn .76s cubic-bezier(.18,.88,.32,1) forwards;
+    }
+
+    .buzz-mini-notice.gold {
+      color: #fff0a3;
+      border-color: rgba(255,216,111,.52);
+    }
+
+    .buzz-mini-notice.info {
+      color: #dff5ff;
+      border-color: rgba(139,220,255,.46);
+    }
+
+    .buzz-mini-notice.danger {
+      color: #ffd7cf;
+      border-color: rgba(255,120,95,.52);
+    }
+
+    @keyframes buzzMiniIn {
+      0% { transform: translate(-50%, -50%) scale(.78); opacity: 0; }
+      18% { transform: translate(-50%, -62%) scale(1.03); opacity: 1; }
+      72% { transform: translate(-50%, -68%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -86%) scale(.94); opacity: 0; }
+    }
+
+    body.fx-motion-off .buzz-mini-notice,
+    body.fx-motion-off #gameScreen .score-big.af-score-counting {
+      animation: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .buzz-mini-notice,
+      #gameScreen .score-big.af-score-counting {
+        animation: none !important;
+      }
+    }
+
+  
+    /* ======================================================
+       v0.27.6 FIXED DOCK + SCORE BREAKDOWN
+       ====================================================== */
+
+    /* Battle cards return to a compact 3:4 silhouette. */
+    :root {
+      --battle-card-height: clamp(132px, 18dvh, 170px);
+    }
+
+    #gameScreen .hand-wrap {
+      flex: 1 1 auto;
+      min-height: var(--battle-card-height);
+      padding-top: 2px;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    #gameScreen .hand {
+      align-items: flex-start;
+      height: auto;
+      min-height: var(--battle-card-height);
+      padding-bottom: 4px;
+    }
+
+    #gameScreen .card {
+      position: relative;
+      flex: 0 0 auto;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+      height: var(--battle-card-height);
+      aspect-ratio: 3 / 4;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    #gameScreen .card.inspected {
+      border-color: rgba(118,255,159,.72);
+      box-shadow:
+        0 0 0 2px rgba(118,255,159,.14),
+        0 10px 26px rgba(0,0,0,.32);
+    }
+
+    #gameScreen .card-icon {
+      top: 27px;
+      font-size: 30px;
+      opacity: .16;
+    }
+
+    #gameScreen .card-top {
+      min-height: 30px;
+      margin-bottom: 3px;
+    }
+
+    #gameScreen .card-name {
+      display: -webkit-box;
+      max-height: 24px;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 10px;
+      line-height: 1.12;
+    }
+
+    #gameScreen .card-cost {
+      flex: 0 0 auto;
+      max-width: 52px;
+      overflow: hidden;
+      padding: 3px 5px;
+      font-size: 8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #gameScreen .card-score-preview.ci-mini-score {
+      display: grid;
+      gap: 2px;
+      margin: 2px 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    #gameScreen .ci-mini-score-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      min-height: 18px;
+      padding: 3px 5px;
+      border-radius: 7px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.06);
+      color: #f0fff4;
+      font-size: 8px;
+      line-height: 1;
+    }
+
+    #gameScreen .ci-mini-score-row b {
+      flex: 0 0 auto;
+      color: rgba(255,255,255,.52);
+      font-size: 7px;
+    }
+
+    #gameScreen .ci-mini-score-row strong {
+      min-width: 0;
+      overflow: hidden;
+      color: #fff0aa;
+      font-size: 9px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #gameScreen .ci-mini-score-row.no-score strong {
+      color: rgba(255,255,255,.60);
+    }
+
+    #gameScreen .card-mid {
+      display: grid;
+      align-content: end;
+      min-height: 42px;
+      margin-top: auto;
+      overflow: hidden;
+    }
+
+    #gameScreen .effect-box {
+      display: grid;
+      gap: 2px;
+      max-height: 41px;
+      overflow: hidden;
+    }
+
+    #gameScreen .effect-pill {
+      min-height: 18px;
+      padding: 3px 4px;
+      font-size: 7.5px;
+    }
+
+    #gameScreen .ci-relic-mark {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      z-index: 5;
+      min-width: 24px;
+      padding: 2px 5px;
+      border-radius: 999px;
+      background: rgba(5,18,14,.84);
+      border: 1px solid rgba(255,216,111,.28);
+      color: #ffe78b;
+      font-size: 7px;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    /* Fixed-height inspector. Its size never changes while dragging. */
+    #gameScreen .card-inspector {
+      flex: 0 0 82px;
+      display: grid;
+      grid-template-rows: 20px 35px 17px;
+      gap: 3px;
+      min-height: 82px;
+      max-height: 82px;
+      margin: 0;
+      padding: 5px 7px;
+      overflow: hidden;
+      border-radius: 12px;
+      background:
+        linear-gradient(145deg, rgba(20,49,38,.92), rgba(8,25,19,.96));
+      border: 1px solid rgba(118,255,159,.18);
+      box-shadow: inset 0 0 18px rgba(118,255,159,.035);
+      cursor: pointer;
+      transition: border-color .14s ease, background .14s ease, opacity .14s ease;
+    }
+
+    #gameScreen .card-inspector.idle {
+      opacity: .66;
+    }
+
+    #gameScreen .card-inspector.active {
+      opacity: 1;
+      border-color: rgba(118,255,159,.40);
+    }
+
+    #gameScreen .card-inspector.ready {
+      opacity: 1;
+      border-color: rgba(118,255,159,.78);
+      background:
+        radial-gradient(circle at 50% 100%, rgba(118,255,159,.16), transparent 55%),
+        linear-gradient(145deg, rgba(24,64,46,.96), rgba(8,29,20,.98));
+      box-shadow:
+        inset 0 0 18px rgba(118,255,159,.07),
+        0 0 18px rgba(118,255,159,.12);
+    }
+
+    #gameScreen .ci-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    #gameScreen .ci-identity {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    #gameScreen .ci-icon {
+      flex: 0 0 auto;
+      font-size: 14px;
+    }
+
+    #gameScreen .ci-identity strong {
+      min-width: 0;
+      overflow: hidden;
+      color: #effff3;
+      font-size: 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #gameScreen .ci-cost,
+    #gameScreen .ci-state {
+      flex: 0 0 auto;
+      padding: 2px 5px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.07);
+      color: rgba(255,255,255,.58);
+      font-size: 7px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    #gameScreen .card-inspector.ready .ci-state {
+      color: #baffca;
+      border-color: rgba(118,255,159,.34);
+    }
+
+    #gameScreen .ci-score-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 3px;
+      min-width: 0;
+    }
+
+    #gameScreen .ci-score-cell {
+      display: grid;
+      align-content: center;
+      min-width: 0;
+      padding: 3px 4px;
+      overflow: hidden;
+      border-radius: 7px;
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.055);
+    }
+
+    #gameScreen .ci-score-cell b {
+      color: rgba(255,255,255,.45);
+      font-size: 6.5px;
+      line-height: 1;
+    }
+
+    #gameScreen .ci-score-cell span {
+      min-width: 0;
+      margin-top: 2px;
+      overflow: hidden;
+      color: #edfdf2;
+      font-size: 9px;
+      font-weight: 1000;
+      line-height: 1;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #gameScreen .ci-score-cell.result {
+      border-color: rgba(255,216,111,.18);
+      background: rgba(255,216,111,.075);
+    }
+
+    #gameScreen .ci-score-cell.result span {
+      color: #fff0a3;
+    }
+
+    #gameScreen .ci-effect-line {
+      min-width: 0;
+      overflow: hidden;
+      color: rgba(255,255,255,.64);
+      font-size: 7.5px;
+      font-weight: 800;
+      line-height: 17px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #gameScreen .card-inspector.ready .ci-effect-line {
+      color: #c8ffd5;
+    }
+
+    /* On the shortest displays, keep the inspector but compress it first. */
+    body.game-short #gameScreen .card-inspector {
+      flex-basis: 74px;
+      grid-template-rows: 18px 31px 15px;
+      min-height: 74px;
+      max-height: 74px;
+      padding: 4px 6px;
+    }
+
+    body.game-short #gameScreen .ci-score-cell span {
+      font-size: 8px;
+    }
+
+    body.game-short {
+      --battle-card-height: clamp(122px, 17dvh, 148px);
+    }
+
+    body.game-very-short #gameScreen .card-inspector {
+      flex-basis: 66px;
+      grid-template-rows: 17px 27px 13px;
+      min-height: 66px;
+      max-height: 66px;
+    }
+
+    body.game-very-short #gameScreen .ci-effect-line {
+      font-size: 7px;
+      line-height: 13px;
+    }
+
+    body.game-very-short {
+      --battle-card-height: 120px;
+    }
+
+    /* Three-stage score display in deck construction / drawer / modal. */
+    .deck-score-breakdown {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      gap: 3px;
+      margin: 4px 0;
+    }
+
+    .deck-score-row {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      align-items: center;
+      gap: 4px;
+      min-height: 21px;
+      padding: 3px 5px;
+      border-radius: 7px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.055);
+    }
+
+    .deck-score-row b {
+      color: rgba(255,255,255,.47);
+      font-size: 7px;
+      line-height: 1;
+    }
+
+    .deck-score-row span {
+      min-width: 0;
+      overflow: hidden;
+      color: #eefdf2;
+      font-size: 8.5px;
+      font-weight: 950;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .deck-score-row.base span {
+      color: #fff0a3;
+    }
+
+    .deck-score-row.no-score span {
+      color: rgba(255,255,255,.62);
+    }
+
+    .deck-edit-card .deck-score-breakdown + .deck-edit-effects {
+      margin-top: 2px;
+    }
+
+    .deck-edit-card .deck-edit-effects {
+      max-height: 46px;
+      overflow: hidden;
+    }
+
+    .score-detail-panel {
+      display: grid;
+      gap: 7px;
+      margin: 10px 0 12px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(118,255,159,.12);
+    }
+
+    .score-detail-title {
+      color: #caffd7;
+      font-size: 11px;
+      font-weight: 1000;
+    }
+
+    .score-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .score-detail-cell {
+      min-width: 0;
+      padding: 6px;
+      border-radius: 9px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .score-detail-cell b {
+      display: block;
+      color: rgba(255,255,255,.48);
+      font-size: 8px;
+    }
+
+    .score-detail-cell strong {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      color: #effff3;
+      font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .score-detail-cell.result strong {
+      color: #fff0a3;
+    }
+
+    .score-detail-notes {
+      display: grid;
+      gap: 3px;
+      color: rgba(255,255,255,.62);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 380px) {
+      .score-detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* END v0.27.6 FIXED DOCK */
+
+  
+    /* ======================================================
+       v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT
+       ====================================================== */
+
+    :root {
+      --battle-card-height: clamp(124px, 16.6dvh, 148px);
+    }
+
+    #gameScreen {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100dvh;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+
+    #gameScreen .battle-meta {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      overflow-y: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .battle-meta::-webkit-scrollbar {
+      display: none;
+    }
+
+    #gameScreen .battle-dock {
+      flex: 0 0 auto;
+      display: grid;
+      gap: 6px;
+      min-height: 0;
+      margin-top: auto;
+      padding-top: 6px;
+      padding-bottom: calc(env(safe-area-inset-bottom) + 2px);
+      border-top: 1px solid rgba(118,255,159,.12);
+      background:
+        linear-gradient(180deg,
+          rgba(3,11,8,0) 0%,
+          rgba(3,11,8,.78) 20%,
+          rgba(3,11,8,.94) 100%);
+      backdrop-filter: blur(8px);
+    }
+
+    #gameScreen .board {
+      min-height: 52px;
+      max-height: 52px;
+      margin: 0;
+      padding: 6px 8px;
+    }
+
+    #gameScreen .board-title {
+      margin-bottom: 5px;
+    }
+
+    #gameScreen .played-list {
+      min-height: 24px;
+      max-height: 24px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .played-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    #gameScreen .card-inspector {
+      flex: 0 0 72px;
+      min-height: 72px;
+      max-height: 72px;
+      margin: 0;
+    }
+
+    #gameScreen .section-title {
+      margin: 0;
+      padding: 0 2px;
+    }
+
+    #gameScreen .hand-wrap {
+      flex: 0 0 auto;
+      height: calc(var(--battle-card-height) + 8px);
+      min-height: calc(var(--battle-card-height) + 8px);
+      max-height: calc(var(--battle-card-height) + 8px);
+      padding: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .hand-wrap::-webkit-scrollbar {
+      display: none;
+    }
+
+    #gameScreen .hand {
+      min-height: var(--battle-card-height);
+      height: var(--battle-card-height);
+      align-items: flex-start;
+      padding-bottom: 0;
+    }
+
+    #gameScreen .actions {
+      margin: 0;
+      padding: 0;
+    }
+
+    #gameScreen .actions .action-btn {
+      min-height: 52px;
+    }
+
+    #gameScreen .buff-panel,
+    #gameScreen .signal-panels {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    #gameScreen .signal-box {
+      min-height: 38px;
+      max-height: 38px;
+      overflow: hidden;
+    }
+
+    #gameScreen .signal-list {
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex-wrap: nowrap;
+      scrollbar-width: none;
+    }
+
+    #gameScreen .signal-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Generic card-name fitting so long names like 残響する投稿 do not clip. */
+    .card-name,
+    .deck-edit-name,
+    .drawer-card-name,
+    .played-chip-name {
+      overflow-wrap: anywhere;
+      word-break: keep-all;
+      hyphens: auto;
+    }
+
+    #gameScreen .card-name {
+      display: -webkit-box;
+      min-height: 24px;
+      max-height: 24px;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 10px;
+      line-height: 1.12;
+      letter-spacing: -.01em;
+    }
+
+    #gameScreen .card-name.name-long {
+      font-size: 9.2px;
+      line-height: 1.08;
+    }
+
+    #gameScreen .card-name.name-vlong {
+      font-size: 8.6px;
+      line-height: 1.04;
+    }
+
+    .deck-edit-name {
+      display: -webkit-box;
+      min-height: 2.55em;
+      max-height: 2.55em;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-height: 1.18;
+      letter-spacing: -.01em;
+    }
+
+    .deck-edit-name.name-long {
+      font-size: 11px;
+    }
+
+    .deck-edit-name.name-vlong {
+      font-size: 10px;
+      line-height: 1.12;
+    }
+
+    #gameScreen .ci-identity strong {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Deck / collection cards: remove multiplier row and keep only base + strengthen. */
+    .deck-score-breakdown.deck-lite {
+      display: grid;
+      gap: 3px;
+      margin: 4px 0 2px;
+    }
+
+    .deck-score-breakdown.deck-lite + .deck-edit-effects {
+      margin-top: 3px;
+    }
+
+    .deck-edit-effects {
+      gap: 3px;
+    }
+
+    .deck-edit-effect {
+      min-height: 20px;
+      font-size: 8px;
+      line-height: 1.1;
+      padding: 4px 4px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Battle mini rows allow slightly longer content without looking cut off. */
+    #gameScreen .ci-mini-score-row strong {
+      font-size: 8.6px;
+      line-height: 1;
+    }
+
+    #gameScreen .effect-pill {
+      min-height: 18px;
+      font-size: 7.2px;
+      line-height: 1.05;
+      padding: 3px 4px;
+    }
+
+    body.game-short {
+      --battle-card-height: 118px;
+    }
+
+    body.game-short #gameScreen .board {
+      min-height: 48px;
+      max-height: 48px;
+    }
+
+    body.game-short #gameScreen .card-inspector {
+      flex-basis: 66px;
+      min-height: 66px;
+      max-height: 66px;
+      padding: 4px 6px;
+    }
+
+    body.game-very-short {
+      --battle-card-height: 112px;
+    }
+
+    body.game-very-short #gameScreen .board {
+      min-height: 44px;
+      max-height: 44px;
+      padding: 5px 7px;
+    }
+
+    body.game-very-short #gameScreen .card-inspector {
+      flex-basis: 60px;
+      min-height: 60px;
+      max-height: 60px;
+      padding: 4px 5px;
+    }
+
+    body.game-very-short #gameScreen .actions .action-btn {
+      min-height: 48px;
+    }
+
+    /* END v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT */
 
   </style>
 </head>
@@ -3520,7 +4802,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.3 / ACTION FLOW</span>
+          <span>v0.27.6 / FIXED DOCK</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -3736,7 +5018,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.3 / ACTION FLOW</span>
+          <span>v0.27.6 / FIXED DOCK</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -3814,6 +5096,25 @@
           <span class="drop-hint" id="boostHint">上へスワイプして投稿</span>
         </div>
         <div class="played-list" id="playedList"></div>
+      </section>
+
+
+      <section class="card-inspector idle" id="cardInspector" role="button" tabindex="0" aria-label="選択カードの詳細">
+        <div class="ci-head">
+          <div class="ci-identity">
+            <span class="ci-icon" id="ciIcon">◇</span>
+            <strong id="ciName">カードを触ると解析</strong>
+            <span class="ci-cost" id="ciCost">DETAIL</span>
+          </div>
+          <span class="ci-state" id="ciState">タップで固定</span>
+        </div>
+        <div class="ci-score-grid" id="ciScoreGrid">
+          <div class="ci-score-cell"><b>①基礎</b><span>—</span></div>
+          <div class="ci-score-cell"><b>②強化</b><span>—</span></div>
+          <div class="ci-score-cell"><b>③倍率</b><span>—</span></div>
+          <div class="ci-score-cell result"><b>予測</b><span>—</span></div>
+        </div>
+        <div class="ci-effect-line" id="ciEffectLine">名前・コスト・効果・スコア内訳をここへ表示する。</div>
       </section>
 
       <div class="section-title">
@@ -9287,7 +10588,7 @@
           buzzUpdateToggles();
           return;
         }
-        if (e.target.closest("button")) buzzSfx("tap");
+        if (e.target.closest("button") && !e.target.closest("#endTurnBtn, [data-buzz-reward], [data-v027-reward]")) buzzSfx("tap");
       });
 
       /* ======================================================
@@ -9309,7 +10610,7 @@
       const buzzOriginalGainToken = gainToken;
       gainToken = function(type, amount, opts = {}) {
         const result = buzzOriginalGainToken(type, amount, opts);
-        if (result > 0 && Date.now() - buzzLastTokenSfxAt > 70) {
+        if (result > 0 && Date.now() - buzzLastTokenSfxAt > 160) {
           buzzLastTokenSfxAt = Date.now();
           buzzSfx(type === "flame" ? "critical" : "token");
         }
@@ -9343,7 +10644,7 @@
           state.rewardHistory = [];
         }
         buzzSfx("turn");
-        buzzBannerShow("LIVE START", "タイムラインへ投稿開始");
+        buzzMiniNotice("📡 LIVE START", el.stagePanel, "good");
       };
 
       const buzzOriginalBeginSelectedStage = beginSelectedStage;
@@ -9354,7 +10655,7 @@
           state.buzzMilestoneStage = state.stageIndex;
         }
         buzzSfx("turn");
-        buzzBannerShow(`AREA ${state.stageIndex + 1}`, currentStage().name);
+        buzzMiniNotice(`AREA ${state.stageIndex + 1} / ${currentStage().name}`, el.stagePanel, "info");
       };
 
       const buzzOriginalFinishRun = finishRun;
@@ -9369,7 +10670,7 @@
         const result = buzzOriginalHarmonyCritical();
         if (result) {
           buzzSfx("critical");
-          buzzBannerShow("HARMONY", "🤝 調和が発生");
+          buzzMiniNotice("🤝 HARMONY", el.empathyText, "good");
           buzzParticles(el.empathyText, "green", 12);
         }
         return result;
@@ -9380,7 +10681,7 @@
         const result = buzzOriginalIdeaCritical();
         if (result) {
           buzzSfx("reward");
-          buzzBannerShow("BUZZ IDEA", "💡 ネタが臨界へ到達", "gold");
+          buzzMiniNotice("💡 BUZZ IDEA", el.ideaText, "gold");
           buzzParticles(el.ideaText, "gold", 12);
         }
         return result;
@@ -9391,7 +10692,7 @@
         const result = buzzOriginalTrustCritical();
         if (result) {
           buzzSfx("reward");
-          buzzBannerShow("SOLID", "🛡️ 堅実さが発生");
+          buzzMiniNotice("🛡️ SOLID", el.trustText, "info");
         }
         return result;
       };
@@ -9401,7 +10702,7 @@
         const result = buzzOriginalFlameCritical();
         if (result) {
           buzzSfx("critical");
-          buzzBannerShow("炎上発生", "🔥 反応値にペナルティ", "danger");
+          buzzMiniNotice("🔥 炎上発生", el.flameText, "danger");
           buzzParticles(el.flameText, "red", 14);
           buzzHaptic([28, 35, 28]);
         }
@@ -9506,7 +10807,7 @@
       };
 
       /* ======================================================
-         v0.27.3 ACTION FLOW
+         v0.27.6 FIXED DOCK
          ====================================================== */
 
       const tokenFlowMeta = {
@@ -9635,7 +10936,7 @@
         setTimeout(() => {
           afLaunchTokenNode(`${meta.icon} +${amountText}`, meta.color, start, mid, end);
 
-          for (let i = 0; i < 3; i++) {
+          for (let i = 0; i < 2; i++) {
             const trailStart = { x: start.x + (Math.random() - .5) * 18, y: start.y + (Math.random() - .5) * 16 };
             const trailMid = { x: mid.x + (Math.random() - .5) * 24, y: mid.y + (Math.random() - .5) * 22 };
             const trailEnd = { x: end.x + (Math.random() - .5) * 10, y: end.y + (Math.random() - .5) * 8 };
@@ -9653,7 +10954,7 @@
             setTimeout(() => trail.remove(), 760);
           }
 
-          const seedCount = Math.min(4, Math.max(2, Math.ceil(Math.abs(amount))));
+          const seedCount = Math.min(3, Math.max(2, Math.ceil(Math.abs(amount))));
           for (let i = 0; i < seedCount; i++) {
             const seedStart = { x: start.x + (Math.random() - .5) * 24, y: start.y + (Math.random() - .5) * 18 };
             const seedMid = { x: mid.x + (Math.random() - .5) * 34, y: mid.y + (Math.random() - .5) * 28 };
@@ -9715,7 +11016,7 @@
             afPlayZoneHit();
             ghost.remove();
             resolve();
-          }, 260);
+          }, 210);
         });
       }
 
@@ -9742,7 +11043,7 @@
       gainToken = function(type, amount, opts = {}) {
         const result = actionFlowGainToken(type, amount, opts);
         if (result > 0) {
-          const seq = opts && Number.isFinite(opts.sequence) ? opts.sequence : 0;
+          const seq = opts && Number.isFinite(opts.sequence) ? opts.sequence : afNextTokenSequence();
           tokenFlow(type, result, seq);
         }
         return result;
@@ -9781,7 +11082,1092 @@
         afInstallHandObserver();
       });
 
-      /* END v0.27.3 ACTION FLOW */
+      /* END v0.27.6 FIXED DOCK */
+
+
+      /* ======================================================
+         v0.27.6 FIXED DOCK
+         ====================================================== */
+
+      let afTokenAutoSequence = 0;
+      let afTokenSequenceTimer = 0;
+      let afScoreAnimationFrame = 0;
+
+      function afNextTokenSequence() {
+        const seq = afTokenAutoSequence;
+        afTokenAutoSequence = Math.min(5, afTokenAutoSequence + 1);
+        clearTimeout(afTokenSequenceTimer);
+        afTokenSequenceTimer = setTimeout(() => {
+          afTokenAutoSequence = 0;
+        }, 90);
+        return seq;
+      }
+
+      function buzzMiniNotice(text, target = null, kind = "") {
+        const anchor = target && target.closest ? (target.closest(".stat") || target) : target;
+        const rect = anchor && anchor.getBoundingClientRect
+          ? anchor.getBoundingClientRect()
+          : { left: innerWidth / 2, top: innerHeight * .28, width: 0, height: 0 };
+
+        const node = document.createElement("div");
+        node.className = `buzz-mini-notice ${kind}`.trim();
+        node.textContent = text;
+        node.style.left = `${rect.left + rect.width / 2}px`;
+        node.style.top = `${Math.max(48, rect.top + rect.height / 2)}px`;
+        document.body.appendChild(node);
+        setTimeout(() => node.remove(), 820);
+      }
+
+      function afSetViewportHeight() {
+        const height = Math.round(
+          (window.visualViewport && window.visualViewport.height) || window.innerHeight
+        );
+        document.documentElement.style.setProperty("--buzz-vh", `${height}px`);
+        document.body.classList.toggle("game-short", height < 690);
+        document.body.classList.toggle("game-very-short", height < 590);
+
+        window.__buzzFitReport = {
+          viewportHeight: height,
+          gameActive: document.body.classList.contains("game-active"),
+          gameClientHeight: el.gameScreen ? el.gameScreen.clientHeight : 0,
+          gameScrollHeight: el.gameScreen ? el.gameScreen.scrollHeight : 0,
+          bodyScrollHeight: document.body.scrollHeight
+        };
+      }
+
+      const oneScreenOriginalShowScreen = showScreen;
+      showScreen = function(name) {
+        oneScreenOriginalShowScreen(name);
+        const active = name === "game";
+        document.body.classList.toggle("game-active", active);
+        afSetViewportHeight();
+        if (active) {
+          window.scrollTo(0, 0);
+          requestAnimationFrame(() => {
+            afSetViewportHeight();
+            if (el.handWrap) el.handWrap.scrollTop = 0;
+          });
+        }
+      };
+
+      window.addEventListener("resize", afSetViewportHeight, { passive: true });
+      window.addEventListener("orientationchange", () => setTimeout(afSetViewportHeight, 180), { passive: true });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", afSetViewportHeight, { passive: true });
+      }
+
+      function afAnimateScoreCount(from, to) {
+        if (!el.scoreText || !Number.isFinite(from) || !Number.isFinite(to) || to <= from) return;
+
+        cancelAnimationFrame(afScoreAnimationFrame);
+        const started = performance.now();
+        const duration = 220;
+        const delta = to - from;
+
+        el.scoreText.classList.add("af-score-counting");
+        if (el.scoreBar && el.scoreBar.parentElement) {
+          el.scoreBar.parentElement.classList.add("af-score-rail");
+        }
+
+        const tick = now => {
+          const t = Math.min(1, (now - started) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.scoreText.textContent = fmt(Math.round(from + delta * eased));
+
+          if (t < 1) {
+            afScoreAnimationFrame = requestAnimationFrame(tick);
+          } else {
+            el.scoreText.textContent = fmt(to);
+            setTimeout(() => {
+              el.scoreText.classList.remove("af-score-counting");
+              if (el.scoreBar && el.scoreBar.parentElement) {
+                el.scoreBar.parentElement.classList.remove("af-score-rail");
+              }
+            }, 80);
+          }
+        };
+
+        afScoreAnimationFrame = requestAnimationFrame(tick);
+      }
+
+      const oneScreenRenderGame = renderGame;
+      renderGame = function(flashScore = false) {
+        const beforeText = el.scoreText ? Number(String(el.scoreText.textContent).replace(/[^\d.-]/g, "")) : 0;
+        oneScreenRenderGame(flashScore);
+        const after = state ? Number(state.score || 0) : beforeText;
+
+        if (after > beforeText && buzzMotionEnabled()) {
+          afAnimateScoreCount(beforeText, after);
+        }
+
+        afSetViewportHeight();
+      };
+
+      /* Stagger newly drawn cards, keeping the whole deal under ~0.35s. */
+      afAnimateNewHandCards = function() {
+        if (!el.hand) return;
+        const cards = [...el.hand.querySelectorAll("[data-uid]")];
+        let newIndex = 0;
+
+        for (const card of cards) {
+          const uid = card.dataset.uid;
+          if (!uid) continue;
+
+          if (!afKnownHandUids.has(uid) && buzzMotionEnabled()) {
+            const delay = Math.min(210, newIndex * 55);
+            card.style.animationDelay = `${delay}ms`;
+            card.classList.remove("af-draw-in");
+            void card.offsetWidth;
+            card.classList.add("af-draw-in");
+            setTimeout(() => {
+              card.classList.remove("af-draw-in");
+              card.style.animationDelay = "";
+            }, 430 + delay);
+            newIndex += 1;
+          }
+        }
+
+        afKnownHandUids = new Set(cards.map(card => card.dataset.uid).filter(Boolean));
+      };
+
+      afSetViewportHeight();
+
+      /* END v0.27.6 FIXED DOCK */
+
+
+      /* ======================================================
+         v0.27.6 FIXED DOCK + SCORE BREAKDOWN
+         ====================================================== */
+
+      let ciSelectedUid = null;
+      let ciPinnedUid = null;
+      let ciLastCard = null;
+      let ciPointer = null;
+
+      function ciBaseFormula(card) {
+        if (!card) return null;
+        const known = typeof baseScoreLabelForCard === "function"
+          ? baseScoreLabelForCard(card)
+          : null;
+        if (known) return known;
+
+        const effects = Array.isArray(card.effects) ? card.effects : [];
+        for (const effect of effects) {
+          const text = String(effect || "").replace(/\s+/g, "");
+          let match = text.match(/^👍\+?([\d.]+)$/);
+          if (match) return compactFormatNumber(Number(match[1]));
+          if (text.includes("👍") || /現👍|枚数×|🔥×|🤝×|📣×/.test(text)) {
+            return String(effect).replace(/\s+/g, "");
+          }
+        }
+        return null;
+      }
+
+      function ciStaticRelicParts(card) {
+        const out = {
+          flat: 0,
+          hasGrowth: false,
+          multiplier: 1,
+          notes: []
+        };
+
+        (card?.relics || [])
+          .map(rid => getRelic(rid))
+          .filter(Boolean)
+          .forEach(item => {
+            const def = relicDef(item.type);
+            if (!def) return;
+            const value = relicValue(item);
+
+            if (def.type === "flat_score") out.flat += value;
+            if (def.type === "growth_score") out.hasGrowth = true;
+            if (def.type === "score_double") out.multiplier = Math.max(out.multiplier, value);
+
+            if (canHavePrefix(item)) {
+              const prefix = relicPrefixDef(item.prefixType);
+              const rarity = relicRarity(item);
+              if (prefix?.type === "echo_score") out.flat += rarity === "SSR" ? 160 : 80;
+              if (prefix?.type === "flame_spread") out.flat += rarity === "SSR" ? 250 : 120;
+            }
+          });
+
+        if (out.flat > 0) out.notes.push(`固定+${fmt(out.flat)}`);
+        if (out.hasGrowth) out.notes.push("成長:ラン中");
+        if (out.multiplier > 1) out.notes.push(`札×${out.multiplier.toFixed(2)}`);
+
+        return out;
+      }
+
+      function ciScoreBreakdown(card, battle = !!state) {
+        const formula = ciBaseFormula(card);
+        const staticParts = ciStaticRelicParts(card);
+
+        if (!formula) {
+          return {
+            hasScore: false,
+            active: false,
+            base: "反応値なし",
+            baseDetail: "このカードは直接スコアを持たない",
+            strengthen: "—",
+            strengthenDetail: staticParts.notes.join(" / ") || "スコア強化なし",
+            multiplier: "—",
+            multiplierDetail: "トークン倍率の対象外",
+            predicted: "—",
+            predictedDetail: "獲得・補助効果を確認",
+          };
+        }
+
+        if (!battle || !state) {
+          const strengthenText = staticParts.flat > 0
+            ? `+${fmt(staticParts.flat)}`
+            : staticParts.hasGrowth
+              ? "成長あり"
+              : "±0";
+
+          return {
+            hasScore: true,
+            active: true,
+            base: `👍${formula}`,
+            baseDetail: `カード固有: ${formula}`,
+            strengthen: strengthenText + (staticParts.multiplier > 1 ? ` / ×${staticParts.multiplier.toFixed(2)}` : ""),
+            strengthenDetail: staticParts.notes.join(" / ") || "装着補正なし",
+            multiplier: "戦闘時",
+            multiplierDetail: "💡・📣・🤝・🔥・ステージで変動",
+            predicted: "—",
+            predictedDetail: "ラン中に現在値から計算",
+          };
+        }
+
+        try {
+          const ps = previewCloneStateForCard(card);
+          const relicParts = previewRelicParts(card, ps);
+          const baseValue = previewDirectScoreBase(card, ps);
+
+          const addBeforeCardMult =
+            Number(ps.nextBonus || 0) +
+            Number(relicParts.flat || 0) +
+            Number(relicParts.growth || 0);
+          const reservedAfterCardMult = Number(ps.nextScoreBonus || 0);
+          const cardMultiplier = Number(relicParts.multiplier || 1);
+
+          const ideaFactor = 1 + Math.max(0, Number(ps.idea || 0)) * 0.01;
+          const empathyFactor = 1 + Math.max(0, Number(ps.empathy || 0)) * 0.01;
+          const hypeFactor = Math.max(0, Number(ps.hype || 1));
+          const effectiveFlame = Math.max(0, Number(ps.flame || 0) - Number(ps.trust || 0));
+          const flameFactor = Math.max(0.35, 1 - effectiveFlame * 0.01);
+          const stageFactor =
+            stageVariantDef(ps.stageVariantId || "plain").id === "flame_quote" && ps.flame >= 5
+              ? 1.12
+              : 1;
+          const doubleFactor =
+            state.nextDouble && card.id !== "empathy_booster"
+              ? 2
+              : 1;
+
+          const tokenFactor =
+            ideaFactor *
+            hypeFactor *
+            empathyFactor *
+            flameFactor *
+            stageFactor *
+            doubleFactor;
+
+          const preview = scorePreviewForCard(card);
+          const conditionMiss = baseValue === null || baseValue === undefined;
+
+          const strengthenPieces = [];
+          if (ps.nextBonus > 0) strengthenPieces.push(`次補正+${fmt(ps.nextBonus)}`);
+          if (relicParts.flat > 0) strengthenPieces.push(`固定+${fmt(relicParts.flat)}`);
+          if (relicParts.growth > 0) strengthenPieces.push(`成長+${fmt(relicParts.growth)}`);
+          if (reservedAfterCardMult > 0) strengthenPieces.push(`予約+${fmt(reservedAfterCardMult)}`);
+          if (cardMultiplier > 1) strengthenPieces.push(`札×${cardMultiplier.toFixed(2)}`);
+
+          const factorPieces = [
+            `💡${ideaFactor.toFixed(2)}`,
+            `📣${hypeFactor.toFixed(2)}`,
+            `🤝${empathyFactor.toFixed(2)}`,
+            `🔥${flameFactor.toFixed(2)}`,
+          ];
+          if (stageFactor > 1) factorPieces.push(`舞台${stageFactor.toFixed(2)}`);
+          if (doubleFactor > 1) factorPieces.push(`倍化${doubleFactor.toFixed(0)}`);
+
+          return {
+            hasScore: true,
+            active: !conditionMiss,
+            base: conditionMiss ? `条件時👍${formula}` : `👍${fmt(baseValue)}`,
+            baseDetail: conditionMiss ? `現在は条件未達 / 基礎式 ${formula}` : `基礎式 ${formula}`,
+            strengthen:
+              (addBeforeCardMult + reservedAfterCardMult > 0
+                ? `+${fmt(addBeforeCardMult + reservedAfterCardMult)}`
+                : "±0") +
+              (cardMultiplier > 1 ? ` / ×${cardMultiplier.toFixed(2)}` : ""),
+            strengthenDetail: strengthenPieces.join(" / ") || "追加・成長なし",
+            multiplier: `×${tokenFactor.toFixed(2)}`,
+            multiplierDetail: factorPieces.join(" / "),
+            predicted: preview ? `👍${fmt(preview.predicted)}` : "条件未達",
+            predictedDetail: preview
+              ? `現在の戦況を反映`
+              : (card.cannotText || "条件を満たすと予測可能"),
+          };
+        } catch (error) {
+          console.warn("Score breakdown failed:", error);
+          return {
+            hasScore: true,
+            active: false,
+            base: `👍${formula}`,
+            baseDetail: `基礎式 ${formula}`,
+            strengthen: staticParts.notes.length ? staticParts.notes.join(" / ") : "±0",
+            strengthenDetail: "戦闘補正を計算できなかった",
+            multiplier: "戦闘時",
+            multiplierDetail: "現在値から再計算",
+            predicted: "—",
+            predictedDetail: "詳細計算待ち",
+          };
+        }
+      }
+
+      function ciCompactEffectSummary(card) {
+        if (!card) return "カードを触ると効果を表示する。";
+
+        const meta = deriveCompactCardMeta(card);
+        const pieces = [];
+
+        const direct = compactTokenSummary(meta.directTokens);
+        if (direct) pieces.push(`獲得 ${direct}`);
+
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) pieces.push(`補助 ${split.supports.slice(0, 3).join(" / ")}`);
+        if (split.conditions.length) pieces.push(`条件 ${split.conditions.slice(0, 2).join(" / ")}`);
+
+        const extra = compactPreviewSummary(previewExtraTokenMap(card), 3);
+        if (extra) pieces.push(`レリック追加 ${extra}`);
+
+        if (!pieces.length) {
+          const fallback = displayEffectTexts(card)
+            .filter(effect => !String(effect).includes("👍"))
+            .slice(0, 3)
+            .map(effect => String(effect).replace(/\s+/g, ""));
+          if (fallback.length) pieces.push(fallback.join(" / "));
+        }
+
+        if (!pieces.length) {
+          pieces.push(ciBaseFormula(card) ? "直接スコアを獲得" : "補助効果なし");
+        }
+
+        return pieces.join("　");
+      }
+
+      function ciScoreCellsHtml(data, deckMode = false) {
+        if (deckMode) {
+          return `
+            <div class="deck-score-breakdown">
+              <div class="deck-score-row base ${data.hasScore ? "" : "no-score"}">
+                <b>①基礎</b><span>${escapeHtml(data.base)}</span>
+              </div>
+              <div class="deck-score-row">
+                <b>②強化</b><span>${escapeHtml(data.strengthen)}</span>
+              </div>
+              <div class="deck-score-row">
+                <b>③倍率</b><span>${escapeHtml(data.multiplier)}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="ci-score-cell ${data.hasScore ? "" : "no-score"}"><b>①基礎</b><span>${escapeHtml(data.base)}</span></div>
+          <div class="ci-score-cell"><b>②強化</b><span>${escapeHtml(data.strengthen)}</span></div>
+          <div class="ci-score-cell"><b>③倍率</b><span>${escapeHtml(data.multiplier)}</span></div>
+          <div class="ci-score-cell result"><b>予測</b><span>${escapeHtml(data.predicted)}</span></div>
+        `;
+      }
+
+      function ciMiniScoreHtml(card) {
+        const data = ciScoreBreakdown(card, true);
+
+        if (!data.hasScore) {
+          return `
+            <div class="card-score-preview ci-mini-score">
+              <div class="ci-mini-score-row no-score"><b>基礎</b><strong>反応値なし</strong></div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="card-score-preview ci-mini-score">
+            <div class="ci-mini-score-row"><b>基礎</b><strong>${escapeHtml(data.base)}</strong></div>
+            <div class="ci-mini-score-row"><b>予測</b><strong>${escapeHtml(data.predicted)}</strong></div>
+          </div>
+        `;
+      }
+
+      function ciBattleEffectRows(card) {
+        const meta = deriveCompactCardMeta(card);
+        const rows = [];
+
+        const direct = compactTokenSummary(meta.directTokens);
+        if (direct) rows.push(battleRow("獲得", direct, "direct-row"));
+
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) rows.push(battleRow("補助", split.supports.slice(0, 2).join(" / "), "support-row"));
+        if (!rows.length && split.conditions.length) rows.push(battleRow("条件", split.conditions.slice(0, 2).join(" / "), "condition-row"));
+
+        if (!rows.length) {
+          const fallback = displayEffectTexts(card)
+            .filter(effect => !String(effect).includes("👍"))
+            .slice(0, 1);
+          if (fallback.length) rows.push(battleRow("効果", fallback[0].replace(/\s+/g, ""), "support-row"));
+        }
+
+        return rows.slice(0, 2).join("");
+      }
+
+      scorePreviewHtml = function(card) {
+        return ciMiniScoreHtml(card);
+      };
+
+      cardEffectPillsHtml = function(card) {
+        return ciBattleEffectRows(card);
+      };
+
+      cardRelicEffectHtml = function(card) {
+        const count = Array.isArray(card?.relics) ? card.relics.length : 0;
+        return count > 0
+          ? `<div class="ci-relic-mark" title="レリック装着数">🧩${count}</div>`
+          : "";
+      };
+
+      function ciResolveCard(uid) {
+        if (!uid) return ciLastCard;
+
+        const piles = state
+          ? [state.hand, state.deck, state.discard, state.exile]
+          : [];
+
+        for (const pile of piles) {
+          const found = Array.isArray(pile) ? pile.find(card => card.uid === uid) : null;
+          if (found) return found;
+        }
+
+        if (ciLastCard && ciLastCard.uid === uid) return ciLastCard;
+        return null;
+      }
+
+      function ciMarkSelectedCard() {
+        if (!el.hand) return;
+        el.hand.querySelectorAll(".card[data-uid]").forEach(cardEl => {
+          cardEl.classList.toggle("inspected", cardEl.dataset.uid === ciSelectedUid);
+        });
+      }
+
+      function ciRenderInspector(uid = ciSelectedUid, options = {}) {
+        const inspector = document.getElementById("cardInspector");
+        if (!inspector) return;
+
+        const card = ciResolveCard(uid);
+
+        if (!card) {
+          inspector.className = "card-inspector idle";
+          document.getElementById("ciIcon").textContent = "◇";
+          document.getElementById("ciName").textContent = "カードを触ると解析";
+          document.getElementById("ciCost").textContent = "DETAIL";
+          document.getElementById("ciState").textContent = "タップで固定";
+          document.getElementById("ciScoreGrid").innerHTML = `
+            <div class="ci-score-cell"><b>①基礎</b><span>—</span></div>
+            <div class="ci-score-cell"><b>②強化</b><span>—</span></div>
+            <div class="ci-score-cell"><b>③倍率</b><span>—</span></div>
+            <div class="ci-score-cell result"><b>予測</b><span>—</span></div>
+          `;
+          document.getElementById("ciEffectLine").textContent =
+            "名前・コスト・効果・スコア内訳をここへ表示する。";
+          ciMarkSelectedCard();
+          return;
+        }
+
+        ciLastCard = card;
+        ciSelectedUid = card.uid;
+
+        const actualCost = state?.nextFreeCost ? 0 : card.cost;
+        const data = ciScoreBreakdown(card, true);
+        const ready = !!options.ready;
+
+        inspector.className = `card-inspector active${ready ? " ready" : ""}`;
+        document.getElementById("ciIcon").textContent = card.icon || "◇";
+        document.getElementById("ciName").textContent = card.name || "カード";
+        document.getElementById("ciCost").textContent = `⚡${actualCost}${cardExtraCostText(card)}`;
+        document.getElementById("ciState").textContent = ready
+          ? "離すと投稿"
+          : ciPinnedUid === card.uid
+            ? "固定中 / 押すと詳細"
+            : "ドラッグ中 / 押すと詳細";
+        document.getElementById("ciScoreGrid").innerHTML = ciScoreCellsHtml(data, false);
+        document.getElementById("ciEffectLine").textContent = ready
+          ? `投稿可能　${ciCompactEffectSummary(card)}`
+          : ciCompactEffectSummary(card);
+
+        ciMarkSelectedCard();
+      }
+
+      function ciRelicDetailLines(card) {
+        const relics = (card?.relics || [])
+          .map(rid => getRelic(rid))
+          .filter(Boolean);
+
+        if (!relics.length) return "装着レリックなし";
+
+        return relics
+          .map(item => {
+            const def = relicDef(item.type);
+            return `${relicRarity(item)} ${def?.icon || "🧩"} ${relicDisplayName(item)}：${relicDescription(item)}`;
+          })
+          .join("\n");
+      }
+
+      function ciOpenBattleDetail(card) {
+        if (!card) return;
+        const data = ciScoreBreakdown(card, true);
+        const effects = displayEffectTexts(card).join(" / ") || "効果なし";
+        const relics = ciRelicDetailLines(card);
+
+        el.modal.innerHTML = `
+          <h2>${escapeHtml(card.icon)} ${escapeHtml(card.name)}</h2>
+          <div class="score-detail-panel">
+            <div class="score-detail-title">スコア内訳</div>
+            <div class="score-detail-grid">
+              <div class="score-detail-cell">
+                <b>① 基礎</b><strong>${escapeHtml(data.base)}</strong>
+              </div>
+              <div class="score-detail-cell">
+                <b>② 強化</b><strong>${escapeHtml(data.strengthen)}</strong>
+              </div>
+              <div class="score-detail-cell">
+                <b>③ 倍率</b><strong>${escapeHtml(data.multiplier)}</strong>
+              </div>
+              <div class="score-detail-cell result">
+                <b>最終予測</b><strong>${escapeHtml(data.predicted)}</strong>
+              </div>
+            </div>
+            <div class="score-detail-notes">
+              <span>基礎：${escapeHtml(data.baseDetail)}</span>
+              <span>強化：${escapeHtml(data.strengthenDetail)}</span>
+              <span>倍率：${escapeHtml(data.multiplierDetail)}</span>
+              <span>結果：${escapeHtml(data.predictedDetail)}</span>
+            </div>
+          </div>
+          <div class="section-title"><span>カード効果</span><span>⚡${card.cost}${escapeHtml(cardExtraCostText(card))}</span></div>
+          <div class="notice-line">${escapeHtml(effects)}</div>
+          <div class="section-title"><span>レリック</span><span>${(card.relics || []).length}個</span></div>
+          <div class="notice-line">${escapeHtml(relics)}</div>
+          <div class="modal-actions">
+            <button class="action-btn primary" data-ci-close type="button">閉じる</button>
+          </div>
+        `;
+        openModal();
+      }
+
+      document.getElementById("cardInspector")?.addEventListener("click", () => {
+        ciOpenBattleDetail(ciResolveCard(ciSelectedUid));
+      });
+
+      document.getElementById("cardInspector")?.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          ciOpenBattleDetail(ciResolveCard(ciSelectedUid));
+        }
+      });
+
+      el.modal.addEventListener("click", event => {
+        if (event.target.closest("[data-ci-close]")) {
+          closeModal();
+        }
+      });
+
+      /* Independent pointer observer. Existing drag/play logic remains untouched. */
+      el.hand.addEventListener("pointerdown", event => {
+        const cardEl = event.target.closest(".card[data-uid]");
+        if (!cardEl || !state || state.clearing || state.busy) return;
+
+        const card = ciResolveCard(cardEl.dataset.uid);
+        if (card) ciLastCard = card;
+
+        ciPointer = {
+          uid: cardEl.dataset.uid,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false,
+        };
+
+        ciSelectedUid = cardEl.dataset.uid;
+        ciRenderInspector(ciSelectedUid, { ready: false });
+      }, true);
+
+      window.addEventListener("pointermove", event => {
+        if (!ciPointer) return;
+
+        const dx = event.clientX - ciPointer.startX;
+        const dy = event.clientY - ciPointer.startY;
+        if (Math.abs(dx) > 7 || Math.abs(dy) > 7) ciPointer.moved = true;
+
+        const ready = isInPlayZone(event.clientX, event.clientY) || dy < -58;
+        ciRenderInspector(ciPointer.uid, { ready });
+      }, true);
+
+      window.addEventListener("pointerup", event => {
+        if (!ciPointer) return;
+
+        const dx = event.clientX - ciPointer.startX;
+        const dy = event.clientY - ciPointer.startY;
+        const ready = isInPlayZone(event.clientX, event.clientY) || dy < -58;
+        const wasTap = !ciPointer.moved && Math.abs(dx) < 8 && Math.abs(dy) < 8;
+
+        if (wasTap) {
+          ciPinnedUid = ciPointer.uid;
+          ciSelectedUid = ciPointer.uid;
+        }
+
+        ciRenderInspector(ciPointer.uid, { ready: false });
+        ciPointer = null;
+      }, true);
+
+      window.addEventListener("pointercancel", () => {
+        if (!ciPointer) return;
+        ciRenderInspector(ciPointer.uid, { ready: false });
+        ciPointer = null;
+      }, true);
+
+      function ciDeckScoreHtml(card) {
+        return ciScoreCellsHtml(ciScoreBreakdown(card, false), true);
+      }
+
+      function ciDeckViewCard(inst) {
+        const base = cardById(inst.baseId);
+        if (!base) return null;
+        return {
+          ...base,
+          uid: inst.uid,
+          instanceUid: inst.uid,
+          relics: [...(inst.relics || [])],
+        };
+      }
+
+      function ciDeckEffectPills(card, limit = 2) {
+        const meta = deriveCompactCardMeta(card);
+        const pieces = [];
+
+        const direct = compactTokenSummary(meta.directTokens);
+        if (direct) pieces.push(`獲得 ${direct}`);
+
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) pieces.push(`補助 ${split.supports.slice(0, 2).join(" / ")}`);
+        if (split.conditions.length) pieces.push(`条件 ${split.conditions.slice(0, 2).join(" / ")}`);
+
+        if (!pieces.length) {
+          const fallback = displayEffectTexts(card)
+            .filter(effect => !String(effect).includes("👍"))
+            .slice(0, limit);
+          pieces.push(...fallback);
+        }
+
+        if (!pieces.length && !ciBaseFormula(card)) pieces.push("補助効果なし");
+
+        return pieces
+          .slice(0, limit)
+          .map(text => `<div class="deck-edit-effect">${escapeHtml(text)}</div>`)
+          .join("");
+      }
+
+      editCardHtml = function(inst, mode) {
+        const card = ciDeckViewCard(inst);
+        if (!card) return "";
+
+        const isDeck = mode === "deck";
+        const inDeck = save.deckInstances.includes(inst.uid);
+        const canAdd = !inDeck && save.deckInstances.length < deckCarryMax();
+        const slots = usedSlots(inst);
+        const filled = Math.min(5, slots);
+        const relicDots = Array.from(
+          { length: 5 },
+          (_, index) => `<span class="relic-dot ${index < filled ? "filled" : ""}"></span>`
+        ).join("");
+        const label = isDeck
+          ? "tap 詳細 / ←外す"
+          : canAdd
+            ? "tap 詳細 / →投入"
+            : "tap 詳細 / 満枠";
+
+        return `
+          <article class="deck-edit-card ${slots > 0 ? "relic-equipped" : ""}"
+            data-edit-card="${escapeHtml(inst.uid)}"
+            data-edit-zone="${isDeck ? "deck" : "collection"}"
+            data-can-add="${canAdd ? "1" : "0"}"
+            data-gesture-label="${escapeHtml(label)}">
+            <div class="deck-edit-icon">${escapeHtml(card.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(card.name)}</div>
+              <div class="deck-edit-cost">⚡${card.cost}${cardExtraCostText(card)}</div>
+            </div>
+            <div class="relic-bar">${relicDots}</div>
+            ${ciDeckScoreHtml(card)}
+            <div class="deck-edit-effects">${ciDeckEffectPills(card)}</div>
+            <div class="deck-edit-count"><span class="relic-tag">${slots}/5</span></div>
+          </article>
+        `;
+      };
+
+      baseDeckCardHtml = function(id, index) {
+        const card = cardById(id);
+        if (!card) return "";
+
+        return `
+          <article class="deck-edit-card base-card">
+            <div class="deck-edit-icon">${escapeHtml(card.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(card.name)}</div>
+              <div class="deck-edit-cost">⚡${card.cost}${cardExtraCostText(card)}</div>
+            </div>
+            <div class="relic-bar">${Array.from({ length: 5 }, () => `<span class="relic-dot"></span>`).join("")}</div>
+            ${ciDeckScoreHtml(card)}
+            <div class="deck-edit-effects">${ciDeckEffectPills(card)}</div>
+            <div class="deck-edit-count"><span class="relic-tag">BASE</span></div>
+          </article>
+        `;
+      };
+
+      drawerCardHtml = function(card) {
+        const slots = (card.relics || []).reduce((sum, rid) => {
+          const item = getRelic(rid);
+          const def = item && relicDef(item.type);
+          return sum + (def ? def.slots : 0);
+        }, 0);
+
+        const dots = Array.from(
+          { length: 5 },
+          (_, index) => `<span class="relic-dot ${index < slots ? "filled" : ""}"></span>`
+        ).join("");
+
+        return `
+          <article class="deck-edit-card ${slots > 0 ? "relic-equipped" : ""}">
+            <div class="deck-edit-icon">${escapeHtml(card.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(card.name)}</div>
+              <div class="deck-edit-cost">⚡${card.cost}${cardExtraCostText(card)}</div>
+            </div>
+            <div class="relic-bar">${dots}</div>
+            ${ciScoreCellsHtml(ciScoreBreakdown(card, true), true)}
+            <div class="deck-edit-effects">${ciDeckEffectPills(card)}</div>
+            <div class="deck-edit-count">${slots}/5</div>
+          </article>
+        `;
+      };
+
+      const ciOriginalOpenCardDetail = openCardDetail;
+      openCardDetail = function(uid) {
+        ciOriginalOpenCardDetail(uid);
+
+        const inst = getOwnedCard(uid);
+        if (!inst) return;
+        const card = ciDeckViewCard(inst);
+        if (!card) return;
+
+        const head = el.modal.querySelector(".detail-head");
+        if (!head) return;
+
+        const data = ciScoreBreakdown(card, false);
+        head.insertAdjacentHTML("afterend", `
+          <div class="score-detail-panel">
+            <div class="score-detail-title">三段階スコア</div>
+            <div class="score-detail-grid">
+              <div class="score-detail-cell">
+                <b>① 基礎</b><strong>${escapeHtml(data.base)}</strong>
+              </div>
+              <div class="score-detail-cell">
+                <b>② 強化</b><strong>${escapeHtml(data.strengthen)}</strong>
+              </div>
+              <div class="score-detail-cell">
+                <b>③ 倍率</b><strong>${escapeHtml(data.multiplier)}</strong>
+              </div>
+              <div class="score-detail-cell result">
+                <b>戦闘予測</b><strong>${escapeHtml(data.predicted)}</strong>
+              </div>
+            </div>
+            <div class="score-detail-notes">
+              <span>基礎：${escapeHtml(data.baseDetail)}</span>
+              <span>強化：${escapeHtml(data.strengthenDetail)}</span>
+              <span>倍率：${escapeHtml(data.multiplierDetail)}</span>
+            </div>
+          </div>
+        `);
+      };
+
+      const ciOriginalRenderGame = renderGame;
+      renderGame = function(flashScore = false) {
+        ciOriginalRenderGame(flashScore);
+
+        if (ciSelectedUid) {
+          ciRenderInspector(ciSelectedUid, { ready: false });
+        } else {
+          ciRenderInspector(null);
+        }
+      };
+
+      /* END v0.27.6 FIXED DOCK */
+
+
+      /* ======================================================
+         v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT JS
+         ====================================================== */
+
+      function v276Attr(value) {
+        return String(value ?? "").replace(/[&<>"']/g, ch => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[ch] || ch));
+      }
+
+      function v276ApplyTextFit(root = document) {
+        [
+          [".card-name", 8, 12],
+          [".deck-edit-name", 8, 12],
+          [".ci-identity strong", 10, 14]
+        ].forEach(([selector, longLen, vLongLen]) => {
+          root.querySelectorAll(selector).forEach(node => {
+            const len = [...String(node.textContent || "").replace(/\s+/g, "")].length;
+            node.classList.remove("name-long", "name-vlong");
+            if (len >= longLen) node.classList.add("name-long");
+            if (len >= vLongLen) node.classList.add("name-vlong");
+          });
+        });
+      }
+
+      function v276EnsureFixedBattleDock() {
+        const game = document.getElementById("gameScreen");
+        if (!game || game.dataset.fixedDock === "1") return;
+
+        const top = document.createElement("div");
+        top.className = "battle-meta";
+        game.insertBefore(top, game.firstChild);
+
+        [
+          game.querySelector(".title"),
+          document.getElementById("runCharacterStrip"),
+          document.getElementById("stagePanel"),
+          game.querySelector(".stats"),
+          document.getElementById("buffPanel"),
+          game.querySelector(".signal-panels"),
+          document.getElementById("log")
+        ].filter(Boolean).forEach(node => top.appendChild(node));
+
+        const dock = document.createElement("div");
+        dock.className = "battle-dock";
+        dock.id = "battleDock";
+        game.appendChild(dock);
+
+        const handTitle = Array.from(game.querySelectorAll(".section-title"))
+          .find(node => node.querySelector("#deckInfo"));
+
+        [
+          document.getElementById("playZone"),
+          document.getElementById("cardInspector"),
+          handTitle,
+          document.getElementById("handWrap"),
+          game.querySelector("section.actions")
+        ].filter(Boolean).forEach(node => dock.appendChild(node));
+
+        game.dataset.fixedDock = "1";
+      }
+
+      function v276DeckScoreLiteHtml(card) {
+        const data = typeof ciScoreBreakdown === "function"
+          ? ciScoreBreakdown(card, false)
+          : {
+              hasScore: false,
+              base: "反応値なし",
+              strengthen: "—",
+              baseDetail: "スコア情報なし",
+              strengthenDetail: "強化情報なし"
+            };
+
+        return `
+          <div class="deck-score-breakdown deck-lite">
+            <div class="deck-score-row base ${data.hasScore ? "" : "no-score"}" title="${v276Attr(data.baseDetail || data.base)}">
+              <b>①基礎</b><span>${escapeHtml(data.base)}</span>
+            </div>
+            <div class="deck-score-row" title="${v276Attr(data.strengthenDetail || data.strengthen)}">
+              <b>②強化</b><span>${escapeHtml(data.strengthen)}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function v276DeckEffectHtml(card, limit = 1) {
+        const meta = deriveCompactCardMeta(card);
+        const pieces = [];
+
+        const direct = compactTokenSummary(meta.directTokens);
+        if (direct) pieces.push(`獲得 ${direct}`);
+
+        const split = splitBattleUtilityRows(meta);
+        if (split.supports.length) pieces.push(`補助 ${split.supports.slice(0, 2).join(" / ")}`);
+        if (split.conditions.length && pieces.length < limit) {
+          pieces.push(`条件 ${split.conditions.slice(0, 2).join(" / ")}`);
+        }
+
+        if (!pieces.length) {
+          const effects = displayEffectTexts(card)
+            .filter(e => !String(e).includes("👍"))
+            .slice(0, limit);
+          pieces.push(...effects);
+        }
+
+        if (!pieces.length) pieces.push("補助効果なし");
+
+        return pieces.slice(0, limit).map(text =>
+          `<div class="deck-edit-effect" title="${v276Attr(text)}">${escapeHtml(text)}</div>`
+        ).join("");
+      }
+
+      function v276BattleScorePreview(card) {
+        const data = typeof ciScoreBreakdown === "function"
+          ? ciScoreBreakdown(card, true)
+          : { hasScore: false, base: "反応値なし", predicted: "—", baseDetail: "", predictedDetail: "" };
+
+        if (!data.hasScore) {
+          return `
+            <div class="card-score-preview ci-mini-score">
+              <div class="ci-mini-score-row no-score" title="${v276Attr(data.baseDetail || data.base)}">
+                <b>基礎</b><strong>${escapeHtml(data.base)}</strong>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="card-score-preview ci-mini-score">
+            <div class="ci-mini-score-row" title="${v276Attr(data.baseDetail || data.base)}">
+              <b>基礎</b><strong>${escapeHtml(data.base)}</strong>
+            </div>
+            <div class="ci-mini-score-row" title="${v276Attr(data.predictedDetail || data.predicted)}">
+              <b>予測</b><strong>${escapeHtml(data.predicted)}</strong>
+            </div>
+          </div>
+        `;
+      }
+
+      scorePreviewHtml = v276BattleScorePreview;
+
+      editCardHtml = function(inst, mode) {
+        const c = cardById(inst.baseId);
+        const isDeck = mode === "deck";
+        const inDeck = save.deckInstances.includes(inst.uid);
+        const canAdd = !inDeck && save.deckInstances.length < deckCarryMax();
+        const slots = usedSlots(inst);
+        const filled = Math.min(5, slots);
+        const relicDots = Array.from({ length: 5 }, (_, i) =>
+          `<span class="relic-dot ${i < filled ? "filled" : ""}"></span>`
+        ).join("");
+        const label = isDeck ? "tap 詳細 / ←外す" : (canAdd ? "tap 詳細 / →投入" : "tap 詳細 / 満枠");
+
+        return `
+          <article class="deck-edit-card ${slots > 0 ? "relic-equipped" : ""}"
+            data-edit-card="${escapeHtml(inst.uid)}"
+            data-edit-zone="${isDeck ? "deck" : "collection"}"
+            data-can-add="${canAdd ? "1" : "0"}"
+            data-gesture-label="${escapeHtml(label)}">
+            <div class="deck-edit-icon">${escapeHtml(c.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(c.name)}</div>
+              <div class="deck-edit-cost">⚡${c.cost}${cardExtraCostText(c)}</div>
+            </div>
+            <div class="relic-bar">${relicDots}</div>
+            ${v276DeckScoreLiteHtml(c)}
+            <div class="deck-edit-effects">
+              ${v276DeckEffectHtml(c)}
+            </div>
+            <div class="deck-edit-count"><span class="relic-tag">${slots}/5</span></div>
+          </article>
+        `;
+      };
+
+      baseDeckCardHtml = function(id, index) {
+        const c = cardById(id);
+        if (!c) return "";
+        return `
+          <article class="deck-edit-card base-card">
+            <div class="deck-edit-icon">${escapeHtml(c.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(c.name)}</div>
+              <div class="deck-edit-cost">⚡${c.cost}${cardExtraCostText(c)}</div>
+            </div>
+            <div class="relic-bar">${Array.from({ length: 5 }, () => `<span class="relic-dot"></span>`).join("")}</div>
+            ${v276DeckScoreLiteHtml(c)}
+            <div class="deck-edit-effects">
+              ${v276DeckEffectHtml(c)}
+            </div>
+            <div class="deck-edit-count"><span class="relic-tag">BASE</span></div>
+          </article>
+        `;
+      };
+
+      drawerCardHtml = function(card) {
+        const slots = (card.relics || []).reduce((sum, rid) => {
+          const item = getRelic(rid);
+          const def = item && relicDef(item.type);
+          return sum + (def ? def.slots : 0);
+        }, 0);
+
+        const dots = Array.from({ length: 5 }, (_, i) =>
+          `<span class="relic-dot ${i < slots ? "filled" : ""}"></span>`
+        ).join("");
+
+        return `
+          <article class="deck-edit-card ${slots > 0 ? "relic-equipped" : ""}">
+            <div class="deck-edit-icon">${escapeHtml(card.icon)}</div>
+            <div class="deck-edit-top">
+              <div class="deck-edit-name">${escapeHtml(card.name)}</div>
+              <div class="deck-edit-cost">⚡${card.cost}${cardExtraCostText(card)}</div>
+            </div>
+            <div class="relic-bar">${dots}</div>
+            ${v276DeckScoreLiteHtml(card)}
+            <div class="deck-edit-effects">
+              ${v276DeckEffectHtml(card)}
+            </div>
+            <div class="deck-edit-count">${slots}/5</div>
+          </article>
+        `;
+      };
+
+      const v276RenderGameBase = renderGame;
+      renderGame = function(...args) {
+        v276EnsureFixedBattleDock();
+        v276RenderGameBase.apply(this, args);
+        v276ApplyTextFit(document.getElementById("gameScreen") || document);
+      };
+
+      if (typeof renderHome === "function") {
+        const v276RenderHomeBase = renderHome;
+        renderHome = function(...args) {
+          v276RenderHomeBase.apply(this, args);
+          v276ApplyTextFit(document.getElementById("homeScreen") || document);
+        };
+      }
+
+      if (typeof renderDrawer === "function") {
+        const v276RenderDrawerBase = renderDrawer;
+        renderDrawer = function(...args) {
+          v276RenderDrawerBase.apply(this, args);
+          v276ApplyTextFit(document.getElementById("cardDrawer") || document);
+        };
+      }
+
+      requestAnimationFrame(() => {
+        v276EnsureFixedBattleDock();
+        v276ApplyTextFit(document);
+      });
+
+      /* END v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT JS */
 
       save = loadSave();
       saveNow();
