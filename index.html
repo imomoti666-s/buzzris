@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.27.6 FIXED DOCK</title>
+  <title>バズリス v0.27.7 SCREEN GUARD</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -2968,7 +2968,7 @@
 
   
     /* ======================================================
-       v0.27.6 FIXED DOCK
+       v0.27.7 SCREEN GUARD
        Constant flashes removed. Ambient motion added.
        ====================================================== */
 
@@ -3180,7 +3180,7 @@
 
   
     /* ======================================================
-       v0.27.6 FIXED DOCK
+       v0.27.7 SCREEN GUARD
        Background depth + card cast + stronger token travel
        ====================================================== */
 
@@ -3510,11 +3510,11 @@
         animation: none !important;
       }
     }
-    /* END v0.27.6 FIXED DOCK */
+    /* END v0.27.7 SCREEN GUARD */
 
   
     /* ======================================================
-       v0.27.6 FIXED DOCK
+       v0.27.7 SCREEN GUARD
        ====================================================== */
 
     :root {
@@ -4062,7 +4062,7 @@
 
   
     /* ======================================================
-       v0.27.6 FIXED DOCK + SCORE BREAKDOWN
+       v0.27.7 SCREEN GUARD + SCORE BREAKDOWN
        ====================================================== */
 
     /* Battle cards return to a compact 3:4 silhouette. */
@@ -4513,7 +4513,7 @@
       }
     }
 
-    /* END v0.27.6 FIXED DOCK */
+    /* END v0.27.7 SCREEN GUARD */
 
   
     /* ======================================================
@@ -4794,6 +4794,202 @@
 
     /* END v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT */
 
+  
+    /* ======================================================
+       v0.27.7 SCREEN GUARD + READABILITY
+       ====================================================== */
+
+    /* Critical fix: inactive game screen must never inherit flex display. */
+    #gameScreen:not(.active) {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    #gameScreen.active {
+      display: flex !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+
+    /* Move log/card drawer launchers into the battle title bar. */
+    #gameScreen .title-tools .battle-title-tool {
+      position: static !important;
+      inset: auto !important;
+      z-index: auto;
+      display: grid;
+      place-items: center;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      margin: 0;
+      padding: 0;
+      border-radius: 10px;
+      font-size: 14px;
+      box-shadow: 0 5px 14px rgba(0,0,0,.20);
+    }
+
+    #gameScreen .title-tools #logOpenBtn {
+      border: 1px solid rgba(255,216,111,.30);
+      background: linear-gradient(180deg, rgba(234,199,100,.92), rgba(150,115,38,.92));
+      color: #1a1000;
+    }
+
+    #gameScreen .title-tools #drawerOpenBtn {
+      border: 1px solid rgba(118,255,159,.30);
+      background: linear-gradient(180deg, rgba(80,217,123,.94), rgba(35,155,75,.94));
+      color: #04140a;
+    }
+
+    #gameScreen .title-tools {
+      gap: 4px;
+    }
+
+    #gameScreen .title-context {
+      max-width: 70px;
+    }
+
+    /* The inspector is the place for readable effects, not a one-line ticker. */
+    #gameScreen .card-inspector {
+      flex-basis: 84px;
+      min-height: 84px;
+      max-height: 84px;
+      grid-template-rows: 18px 31px minmax(25px, 1fr);
+      gap: 3px;
+    }
+
+    #gameScreen .ci-effect-line {
+      display: -webkit-box;
+      min-height: 24px;
+      max-height: 28px;
+      overflow: hidden;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 8px;
+      font-weight: 850;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+    }
+
+    #gameScreen .ci-effect-line.effect-tight {
+      font-size: 7.4px;
+      line-height: 1.28;
+    }
+
+    #gameScreen .ci-state {
+      max-width: 112px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    body.game-short #gameScreen .card-inspector {
+      flex-basis: 78px;
+      min-height: 78px;
+      max-height: 78px;
+      grid-template-rows: 17px 29px minmax(23px, 1fr);
+    }
+
+    body.game-very-short #gameScreen .card-inspector {
+      flex-basis: 72px;
+      min-height: 72px;
+      max-height: 72px;
+      grid-template-rows: 16px 27px minmax(21px, 1fr);
+    }
+
+    /* All compact text fields receive a second fit pass. */
+    .auto-fit-tight {
+      font-size: 7.2px !important;
+      letter-spacing: -.02em !important;
+    }
+
+    .auto-fit-very-tight {
+      font-size: 6.5px !important;
+      letter-spacing: -.035em !important;
+    }
+
+    .deck-score-row span,
+    .ci-mini-score-row strong,
+    .ci-score-cell span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Deck construction has only intrinsic score and permanent strengthening. */
+    .deck-score-breakdown:not(.deck-lite) .deck-score-row:nth-child(n+3),
+    .deck-score-breakdown:not(.deck-lite) .deck-score-row:nth-child(n+3) {
+      display: none !important;
+    }
+
+    .score-detail-panel.deck-context .score-detail-cell:nth-child(n+3),
+    .score-detail-panel.deck-context .score-detail-notes span:nth-child(n+3) {
+      display: none !important;
+    }
+
+    /* Instructions already exist above the grid, so do not repeat on every card. */
+    .deck-edit-card[data-edit-card]::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    .deck-edit-card[data-edit-card] {
+      padding-bottom: 10px;
+    }
+
+    .deck-edit-count {
+      bottom: 6px !important;
+    }
+
+    /* Overflowing deck effects get two lines before being sent to detail. */
+    .deck-edit-effect {
+      display: -webkit-box;
+      min-height: 22px;
+      max-height: 30px;
+      overflow: hidden;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-height: 1.18;
+    }
+
+    /* The upper panel remains scrollable but gains a subtle visual cue. */
+    #gameScreen .battle-meta {
+      position: relative;
+      padding-right: 2px;
+      mask-image: linear-gradient(to bottom, #000 0%, #000 94%, transparent 100%);
+    }
+
+    #gameScreen .battle-meta.can-scroll::after {
+      content: "▲ 戦況をスクロール";
+      position: sticky;
+      left: 50%;
+      bottom: 2px;
+      display: block;
+      width: max-content;
+      margin: 0 auto;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(4,16,12,.78);
+      border: 1px solid rgba(118,255,159,.12);
+      color: rgba(255,255,255,.42);
+      font-size: 7px;
+      font-weight: 900;
+      pointer-events: none;
+    }
+
+    /* Small notifications should not span almost the entire screen. */
+    .buzz-mini-notice {
+      max-width: min(62vw, 240px);
+      padding: 6px 9px;
+      font-size: 10px;
+    }
+
+    /* END v0.27.7 SCREEN GUARD + READABILITY */
+
   </style>
 </head>
 <body>
@@ -4802,7 +4998,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.6 / FIXED DOCK</span>
+          <span>v0.27.7 / SCREEN GUARD</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -5018,7 +5214,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.6 / FIXED DOCK</span>
+          <span>v0.27.7 / SCREEN GUARD</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -10807,7 +11003,7 @@
       };
 
       /* ======================================================
-         v0.27.6 FIXED DOCK
+         v0.27.7 SCREEN GUARD
          ====================================================== */
 
       const tokenFlowMeta = {
@@ -11082,11 +11278,11 @@
         afInstallHandObserver();
       });
 
-      /* END v0.27.6 FIXED DOCK */
+      /* END v0.27.7 SCREEN GUARD */
 
 
       /* ======================================================
-         v0.27.6 FIXED DOCK
+         v0.27.7 SCREEN GUARD
          ====================================================== */
 
       let afTokenAutoSequence = 0;
@@ -11232,11 +11428,11 @@
 
       afSetViewportHeight();
 
-      /* END v0.27.6 FIXED DOCK */
+      /* END v0.27.7 SCREEN GUARD */
 
 
       /* ======================================================
-         v0.27.6 FIXED DOCK + SCORE BREAKDOWN
+         v0.27.7 SCREEN GUARD + SCORE BREAKDOWN
          ====================================================== */
 
       let ciSelectedUid = null;
@@ -11910,7 +12106,7 @@
         }
       };
 
-      /* END v0.27.6 FIXED DOCK */
+      /* END v0.27.7 SCREEN GUARD */
 
 
       /* ======================================================
@@ -12168,6 +12364,215 @@
       });
 
       /* END v0.27.6 FIXED BOTTOM DOCK + CARD AUDIT JS */
+
+
+      /* ======================================================
+         v0.27.7 SCREEN GUARD + READABILITY JS
+         ====================================================== */
+
+      function v277InstallTitleTools() {
+        const game = document.getElementById("gameScreen");
+        const tools = game?.querySelector(".title-tools");
+        const logButton = document.getElementById("logOpenBtn");
+        const cardButton = document.getElementById("drawerOpenBtn");
+        if (!tools || !logButton || !cardButton) return;
+
+        [logButton, cardButton].forEach(button => {
+          button.classList.add("battle-title-tool");
+          tools.insertBefore(button, tools.firstChild);
+        });
+      }
+
+      function v277SyncToolVisibility(name) {
+        const visible = name === "game";
+        const logButton = document.getElementById("logOpenBtn");
+        const cardButton = document.getElementById("drawerOpenBtn");
+        if (logButton) logButton.style.display = visible ? "grid" : "none";
+        if (cardButton) cardButton.style.display = visible ? "grid" : "none";
+      }
+
+      const v277ShowScreenBase = showScreen;
+      showScreen = function(name) {
+        v277ShowScreenBase(name);
+        v277InstallTitleTools();
+        v277SyncToolVisibility(name);
+
+        if (name !== "game") {
+          el.gameScreen.classList.remove("active");
+          el.gameScreen.setAttribute("aria-hidden", "true");
+        } else {
+          el.homeScreen.classList.remove("active");
+          el.gameScreen.setAttribute("aria-hidden", "false");
+        }
+      };
+
+      function v277FullEffectText(card) {
+        if (!card) return "カードを触ると、完全な効果をここへ表示する。";
+
+        const parts = [];
+        const effects = displayEffectTexts(card)
+          .map(text => String(text || "").trim())
+          .filter(Boolean);
+
+        for (const effect of effects) {
+          if (!parts.includes(effect)) parts.push(effect);
+        }
+
+        const extra = compactPreviewSummary(previewExtraTokenMap(card), 4);
+        if (extra) parts.push(`レリック追加：${extra}`);
+
+        if (!parts.length) {
+          const fallback = ciCompactEffectSummary(card);
+          if (fallback) parts.push(fallback);
+        }
+
+        return parts.join(" ／ ");
+      }
+
+      const v277InspectorBase = ciRenderInspector;
+      ciRenderInspector = function(uid = ciSelectedUid, options = {}) {
+        v277InspectorBase(uid, options);
+
+        const card = ciResolveCard(uid);
+        const effectLine = document.getElementById("ciEffectLine");
+        const stateLabel = document.getElementById("ciState");
+        if (!card || !effectLine) return;
+
+        const fullText = options.ready
+          ? `投稿可能：${v277FullEffectText(card)}`
+          : v277FullEffectText(card);
+
+        effectLine.textContent = fullText;
+        effectLine.title = fullText;
+        effectLine.setAttribute("aria-label", fullText);
+        effectLine.classList.toggle("effect-tight", [...fullText].length > 52);
+
+        if (stateLabel) {
+          stateLabel.textContent = options.ready
+            ? "離すと投稿"
+            : ciPinnedUid === card.uid
+              ? "選択固定 / 押すと詳細"
+              : "選択中 / 押すと詳細";
+        }
+      };
+
+      function v277FitNode(node) {
+        if (!node) return;
+        node.classList.remove("auto-fit-tight", "auto-fit-very-tight");
+
+        const overflows =
+          node.scrollWidth > node.clientWidth + 1 ||
+          node.scrollHeight > node.clientHeight + 1;
+
+        if (!overflows) return;
+        node.classList.add("auto-fit-tight");
+
+        requestAnimationFrame(() => {
+          const stillOverflows =
+            node.scrollWidth > node.clientWidth + 1 ||
+            node.scrollHeight > node.clientHeight + 1;
+          if (stillOverflows) node.classList.add("auto-fit-very-tight");
+        });
+      }
+
+      function v277AuditVisibleCards(root = document) {
+        const selectors = [
+          ".card-name",
+          ".deck-edit-name",
+          ".deck-score-row span",
+          ".ci-mini-score-row strong",
+          ".ci-score-cell span",
+          ".deck-edit-effect"
+        ];
+
+        const unresolved = [];
+        root.querySelectorAll(selectors.join(",")).forEach(node => {
+          v277FitNode(node);
+          requestAnimationFrame(() => {
+            if (
+              node.scrollWidth > node.clientWidth + 1 ||
+              node.scrollHeight > node.clientHeight + 1
+            ) {
+              unresolved.push({
+                text: String(node.textContent || "").trim(),
+                className: node.className
+              });
+              node.title = String(node.textContent || "").trim();
+            }
+          });
+        });
+
+        window.__buzzCardAudit = {
+          checkedAt: new Date().toISOString(),
+          unresolved
+        };
+      }
+
+      function v277UpdateMetaScrollCue() {
+        const meta = document.querySelector("#gameScreen .battle-meta");
+        if (!meta) return;
+        meta.classList.toggle("can-scroll", meta.scrollHeight > meta.clientHeight + 4);
+      }
+
+      function v277CleanDeckDetail() {
+        const panel = el.modal.querySelector(".score-detail-panel");
+        if (!panel) return;
+
+        panel.classList.add("deck-context");
+        const title = panel.querySelector(".score-detail-title");
+        if (title) title.textContent = "カード基礎性能";
+
+        panel.querySelectorAll(".score-detail-cell").forEach(cell => {
+          const label = cell.querySelector("b")?.textContent || "";
+          if (label.includes("③") || label.includes("予測")) cell.remove();
+        });
+
+        panel.querySelectorAll(".score-detail-notes span").forEach(note => {
+          const text = note.textContent || "";
+          if (text.startsWith("倍率：") || text.startsWith("結果：")) note.remove();
+        });
+      }
+
+      const v277OpenCardDetailBase = openCardDetail;
+      openCardDetail = function(uid) {
+        v277OpenCardDetailBase(uid);
+        v277CleanDeckDetail();
+      };
+
+      const v277RenderGameBase = renderGame;
+      renderGame = function(...args) {
+        v277RenderGameBase.apply(this, args);
+        v277InstallTitleTools();
+        v277SyncToolVisibility(true);
+        requestAnimationFrame(() => {
+          v277AuditVisibleCards(document.getElementById("gameScreen") || document);
+          v277UpdateMetaScrollCue();
+        });
+      };
+
+      const v277RenderHomeBase = renderHome;
+      renderHome = function(...args) {
+        v277RenderHomeBase.apply(this, args);
+        requestAnimationFrame(() => {
+          v277AuditVisibleCards(document.getElementById("homeScreen") || document);
+        });
+      };
+
+      window.addEventListener("resize", () => {
+        requestAnimationFrame(() => {
+          v277AuditVisibleCards(document);
+          v277UpdateMetaScrollCue();
+        });
+      }, { passive: true });
+
+      requestAnimationFrame(() => {
+        v277InstallTitleTools();
+        v277SyncToolVisibility(false);
+        v277AuditVisibleCards(document);
+        v277UpdateMetaScrollCue();
+      });
+
+      /* END v0.27.7 SCREEN GUARD + READABILITY JS */
 
       save = loadSave();
       saveNow();
