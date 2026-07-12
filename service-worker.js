@@ -1,4 +1,4 @@
-const CACHE_NAME = "buzzris-v0-26-2-safe-modal-notice";
+const CACHE_NAME = "buzzris-v0-27-3-action-flow";
 const ASSETS = [
   "./",
   "./index.html",
