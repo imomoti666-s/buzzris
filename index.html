@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>バズリス v0.27.7 SCREEN GUARD</title>
+  <title>バズリス v0.27.8 STABILITY AUDIT</title>
   <meta name="theme-color" content="#07110e">
   <meta name="application-name" content="バズリス">
   <meta name="apple-mobile-web-app-title" content="バズリス">
@@ -2968,7 +2968,7 @@
 
   
     /* ======================================================
-       v0.27.7 SCREEN GUARD
+       v0.27.8 STABILITY AUDIT
        Constant flashes removed. Ambient motion added.
        ====================================================== */
 
@@ -3180,7 +3180,7 @@
 
   
     /* ======================================================
-       v0.27.7 SCREEN GUARD
+       v0.27.8 STABILITY AUDIT
        Background depth + card cast + stronger token travel
        ====================================================== */
 
@@ -3510,11 +3510,11 @@
         animation: none !important;
       }
     }
-    /* END v0.27.7 SCREEN GUARD */
+    /* END v0.27.8 STABILITY AUDIT */
 
   
     /* ======================================================
-       v0.27.7 SCREEN GUARD
+       v0.27.8 STABILITY AUDIT
        ====================================================== */
 
     :root {
@@ -4062,7 +4062,7 @@
 
   
     /* ======================================================
-       v0.27.7 SCREEN GUARD + SCORE BREAKDOWN
+       v0.27.8 STABILITY AUDIT + SCORE BREAKDOWN
        ====================================================== */
 
     /* Battle cards return to a compact 3:4 silhouette. */
@@ -4513,7 +4513,7 @@
       }
     }
 
-    /* END v0.27.7 SCREEN GUARD */
+    /* END v0.27.8 STABILITY AUDIT */
 
   
     /* ======================================================
@@ -4796,7 +4796,7 @@
 
   
     /* ======================================================
-       v0.27.7 SCREEN GUARD + READABILITY
+       v0.27.8 STABILITY AUDIT + READABILITY
        ====================================================== */
 
     /* Critical fix: inactive game screen must never inherit flex display. */
@@ -4988,7 +4988,202 @@
       font-size: 10px;
     }
 
-    /* END v0.27.7 SCREEN GUARD + READABILITY */
+    /* END v0.27.8 STABILITY AUDIT + READABILITY */
+
+  
+    /* ======================================================
+       v0.27.8 STABILITY AUDIT
+       ====================================================== */
+
+    .audit-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin: 10px 0;
+    }
+
+    .audit-meter {
+      min-width: 0;
+      padding: 8px 6px;
+      border-radius: 11px;
+      text-align: center;
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+
+    .audit-meter b {
+      display: block;
+      color: rgba(255,255,255,.50);
+      font-size: 8px;
+    }
+
+    .audit-meter strong {
+      display: block;
+      margin-top: 4px;
+      color: #effff3;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .audit-meter.ok {
+      border-color: rgba(118,255,159,.24);
+    }
+
+    .audit-meter.ok strong {
+      color: #aaffbe;
+    }
+
+    .audit-meter.warn {
+      border-color: rgba(255,216,111,.26);
+    }
+
+    .audit-meter.warn strong {
+      color: #ffe48b;
+    }
+
+    .audit-meter.bad {
+      border-color: rgba(255,105,91,.30);
+    }
+
+    .audit-meter.bad strong {
+      color: #ffaaa0;
+    }
+
+    .audit-section {
+      margin: 10px 0 0;
+      border-radius: 13px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(0,0,0,.16);
+    }
+
+    .audit-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      color: #effff3;
+      background: rgba(255,255,255,.035);
+      font-size: 11px;
+      font-weight: 1000;
+    }
+
+    .audit-list {
+      display: grid;
+      max-height: 210px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .audit-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 7px;
+      padding: 7px 9px;
+      border-top: 1px solid rgba(255,255,255,.045);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .audit-item:first-child {
+      border-top: 0;
+    }
+
+    .audit-item .audit-icon {
+      width: 20px;
+      text-align: center;
+    }
+
+    .audit-item strong {
+      display: block;
+      color: #effff3;
+      font-size: 10px;
+    }
+
+    .audit-item span {
+      display: block;
+      margin-top: 2px;
+      color: rgba(255,255,255,.58);
+    }
+
+    .audit-item.error strong {
+      color: #ffaaa0;
+    }
+
+    .audit-item.warning strong {
+      color: #ffe48b;
+    }
+
+    .audit-item.repair strong {
+      color: #aaffbe;
+    }
+
+    .audit-empty {
+      padding: 12px;
+      color: rgba(255,255,255,.52);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .audit-footnote {
+      margin-top: 9px;
+      color: rgba(255,255,255,.45);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    /* Off-screen render sandbox used only while auditing all 46 cards. */
+    .audit-sandbox {
+      position: fixed;
+      left: -20000px;
+      top: 0;
+      z-index: -1;
+      display: grid;
+      grid-template-columns: repeat(3, 106px);
+      gap: 8px;
+      width: 334px;
+      padding: 8px;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .audit-sandbox .deck-edit-card {
+      width: 106px;
+      min-width: 106px;
+      max-width: 106px;
+    }
+
+    .save-health-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(118,255,159,.18);
+      background: rgba(118,255,159,.08);
+      color: #bdffcb;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    /* Play lock gives immediate visual feedback during card resolution. */
+    body.card-resolving #gameScreen .hand {
+      pointer-events: none;
+    }
+
+    body.card-resolving #gameScreen .card:not(.inspected) {
+      opacity: .70;
+    }
+
+    @media (max-width: 380px) {
+      .audit-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* END v0.27.8 STABILITY AUDIT */
 
   </style>
 </head>
@@ -4998,7 +5193,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.7 / SCREEN GUARD</span>
+          <span>v0.27.8 / STABILITY AUDIT</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -5069,6 +5264,7 @@
             <button class="action-btn danger" id="resetSaveBtn" type="button">保存リセット</button>
             <button class="action-btn" id="saveExportBtn" type="button">セーブ書出</button>
             <button class="action-btn" id="saveImportBtn" type="button">セーブ読込</button>
+            <button class="action-btn wide" id="cardAuditBtn" type="button">🧪 カード・セーブ監査</button>
             <button class="action-btn gold wide" id="updateAppBtn" type="button">最新版に更新</button>
           </div>
           <div style="color: var(--muted); font-size: 12px; line-height: 1.5;">
@@ -5214,7 +5410,7 @@
       <div class="title">
         <div>
           <h1>バズリス</h1>
-          <span>v0.27.7 / SCREEN GUARD</span>
+          <span>v0.27.8 / STABILITY AUDIT</span>
         </div>
         <div class="title-tools">
           <button class="fx-toggle" data-sfx-toggle type="button" aria-label="効果音切替">🔊</button>
@@ -6614,7 +6810,7 @@
       function saveExportPayload() {
         return {
           app: "buzzris",
-          version: "v0.27.1",
+          version: "v0.27.8",
           saveKey: SAVE_KEY,
           exportedAt: new Date().toISOString(),
           save
@@ -11003,7 +11199,7 @@
       };
 
       /* ======================================================
-         v0.27.7 SCREEN GUARD
+         v0.27.8 STABILITY AUDIT
          ====================================================== */
 
       const tokenFlowMeta = {
@@ -11278,11 +11474,11 @@
         afInstallHandObserver();
       });
 
-      /* END v0.27.7 SCREEN GUARD */
+      /* END v0.27.8 STABILITY AUDIT */
 
 
       /* ======================================================
-         v0.27.7 SCREEN GUARD
+         v0.27.8 STABILITY AUDIT
          ====================================================== */
 
       let afTokenAutoSequence = 0;
@@ -11428,11 +11624,11 @@
 
       afSetViewportHeight();
 
-      /* END v0.27.7 SCREEN GUARD */
+      /* END v0.27.8 STABILITY AUDIT */
 
 
       /* ======================================================
-         v0.27.7 SCREEN GUARD + SCORE BREAKDOWN
+         v0.27.8 STABILITY AUDIT + SCORE BREAKDOWN
          ====================================================== */
 
       let ciSelectedUid = null;
@@ -12106,7 +12302,7 @@
         }
       };
 
-      /* END v0.27.7 SCREEN GUARD */
+      /* END v0.27.8 STABILITY AUDIT */
 
 
       /* ======================================================
@@ -12367,7 +12563,7 @@
 
 
       /* ======================================================
-         v0.27.7 SCREEN GUARD + READABILITY JS
+         v0.27.8 STABILITY AUDIT + READABILITY JS
          ====================================================== */
 
       function v277InstallTitleTools() {
@@ -12572,12 +12768,717 @@
         v277UpdateMetaScrollCue();
       });
 
-      /* END v0.27.7 SCREEN GUARD + READABILITY JS */
+      /* END v0.27.8 STABILITY AUDIT + READABILITY JS */
+
+
+      /* ======================================================
+         v0.27.8 STABILITY AUDIT JS
+         ====================================================== */
+
+      const V278_SAVE_SCHEMA = 28;
+      const V278_BACKUP_KEY = SAVE_KEY + "_backup_v27";
+      let v278PendingRepairNotice = null;
+      let v278LastAuditReport = null;
+      let v278PlayLock = false;
+      let v278SuppressClickUntil = 0;
+      let v278PointerWatch = null;
+
+      function v278Uid(prefix = "item") {
+        if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
+          return `${prefix}_${globalThis.crypto.randomUUID()}`;
+        }
+        return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      }
+
+      function v278PushUniqueQuarantine(list, item, keyFn) {
+        const key = keyFn(item);
+        if (!list.some(existing => keyFn(existing) === key)) {
+          list.push(item);
+        }
+      }
+
+      function v278RepairSaveData(input) {
+        const data = input && typeof input === "object" ? input : {};
+        const report = {
+          restoredCards: 0,
+          quarantinedCards: 0,
+          quarantinedRelics: 0,
+          removedDeckRefs: 0,
+          duplicateIdsRepaired: 0,
+          removedRelicRefs: 0,
+          characterReset: 0,
+          notes: []
+        };
+
+        const knownCards = new Set(cardPool.map(card => card.id));
+        const knownRelicTypes = new Set(relicDefs.map(def => def.type));
+
+        data.quarantine = data.quarantine && typeof data.quarantine === "object"
+          ? data.quarantine
+          : {};
+        data.quarantine.cards = Array.isArray(data.quarantine.cards)
+          ? data.quarantine.cards
+          : [];
+        data.quarantine.relics = Array.isArray(data.quarantine.relics)
+          ? data.quarantine.relics
+          : [];
+
+        /* Restore cards quarantined by an older client when their definition returns. */
+        const stillQuarantinedCards = [];
+        for (const card of data.quarantine.cards) {
+          if (card && knownCards.has(card.baseId)) {
+            data.ownedCards = Array.isArray(data.ownedCards) ? data.ownedCards : [];
+            data.ownedCards.push(card);
+            report.restoredCards += 1;
+          } else {
+            stillQuarantinedCards.push(card);
+          }
+        }
+        data.quarantine.cards = stillQuarantinedCards;
+
+        /* Relics first, because card equipment points at their UIDs. */
+        const relicUidSet = new Set();
+        const validRelics = [];
+        for (const raw of Array.isArray(data.relics) ? data.relics : []) {
+          if (!raw || !knownRelicTypes.has(raw.type)) {
+            v278PushUniqueQuarantine(
+              data.quarantine.relics,
+              raw || { type: "invalid", uid: v278Uid("relic_invalid") },
+              item => `${item?.uid || ""}:${item?.type || ""}`
+            );
+            report.quarantinedRelics += 1;
+            continue;
+          }
+
+          const item = { ...raw };
+          if (!item.uid || relicUidSet.has(item.uid)) {
+            item.uid = v278Uid("relic");
+            report.duplicateIdsRepaired += 1;
+          }
+          relicUidSet.add(item.uid);
+          validRelics.push(item);
+        }
+        data.relics = validRelics;
+
+        const ownedUidSet = new Set();
+        const validOwnedCards = [];
+        for (const raw of Array.isArray(data.ownedCards) ? data.ownedCards : []) {
+          if (!raw || !knownCards.has(raw.baseId)) {
+            v278PushUniqueQuarantine(
+              data.quarantine.cards,
+              raw || { baseId: "invalid", uid: v278Uid("card_invalid"), relics: [] },
+              item => `${item?.uid || ""}:${item?.baseId || ""}`
+            );
+            report.quarantinedCards += 1;
+            continue;
+          }
+
+          const item = { ...raw };
+          if (!item.uid || ownedUidSet.has(item.uid)) {
+            item.uid = v278Uid("card");
+            report.duplicateIdsRepaired += 1;
+          }
+          ownedUidSet.add(item.uid);
+
+          const beforeRelicCount = Array.isArray(item.relics) ? item.relics.length : 0;
+          item.relics = [...new Set(
+            (Array.isArray(item.relics) ? item.relics : [])
+              .filter(uid => relicUidSet.has(uid))
+          )];
+          report.removedRelicRefs += beforeRelicCount - item.relics.length;
+
+          validOwnedCards.push(item);
+        }
+        data.ownedCards = validOwnedCards;
+
+        const oldDeck = Array.isArray(data.deckInstances) ? data.deckInstances : [];
+        data.deckInstances = [...new Set(oldDeck.filter(uid => ownedUidSet.has(uid)))];
+        report.removedDeckRefs += oldDeck.length - data.deckInstances.length;
+
+        if (!data.characterId || !characterDefs[data.characterId]) {
+          data.characterId = "imomoti";
+          report.characterReset += 1;
+        }
+
+        data.history = Array.isArray(data.history) ? data.history : [];
+        data.relics = Array.isArray(data.relics) ? data.relics : [];
+        data.ownedCards = Array.isArray(data.ownedCards) ? data.ownedCards : [];
+        data.deckInstances = Array.isArray(data.deckInstances) ? data.deckInstances : [];
+        data.characterFragments = data.characterFragments && typeof data.characterFragments === "object"
+          ? data.characterFragments
+          : {};
+        data.materials = data.materials && typeof data.materials === "object"
+          ? data.materials
+          : {};
+        data.rewardStats = data.rewardStats && typeof data.rewardStats === "object"
+          ? data.rewardStats
+          : { card: 0, relic: 0, material: 0 };
+        data.diagnostics = data.diagnostics && typeof data.diagnostics === "object"
+          ? data.diagnostics
+          : {};
+        data.diagnostics.scoreMismatches = Array.isArray(data.diagnostics.scoreMismatches)
+          ? data.diagnostics.scoreMismatches.slice(-30)
+          : [];
+
+        data.saveVersion = V278_SAVE_SCHEMA;
+        data.lastRepairAt = new Date().toISOString();
+
+        const totalChanges =
+          report.restoredCards +
+          report.quarantinedCards +
+          report.quarantinedRelics +
+          report.removedDeckRefs +
+          report.duplicateIdsRepaired +
+          report.removedRelicRefs +
+          report.characterReset;
+
+        if (report.restoredCards) report.notes.push(`カード復元 ${report.restoredCards}`);
+        if (report.quarantinedCards) report.notes.push(`カード隔離 ${report.quarantinedCards}`);
+        if (report.quarantinedRelics) report.notes.push(`レリック隔離 ${report.quarantinedRelics}`);
+        if (report.removedDeckRefs) report.notes.push(`無効編成参照 ${report.removedDeckRefs}`);
+        if (report.duplicateIdsRepaired) report.notes.push(`重複UID修復 ${report.duplicateIdsRepaired}`);
+        if (report.removedRelicRefs) report.notes.push(`無効装着参照 ${report.removedRelicRefs}`);
+        if (report.characterReset) report.notes.push("キャラクター選択を初期化");
+
+        data.lastRepairReport = {
+          at: data.lastRepairAt,
+          changed: totalChanges,
+          notes: report.notes
+        };
+
+        return {
+          data,
+          report,
+          changed: totalChanges > 0
+        };
+      }
+
+      const v278DefaultSaveBase = defaultSave;
+      defaultSave = function() {
+        const repaired = v278RepairSaveData(v278DefaultSaveBase());
+        return repaired.data;
+      };
+
+      const v278NormalizeSaveBase = normalizeSave;
+      normalizeSave = function(parsed) {
+        const repaired = v278RepairSaveData(v278NormalizeSaveBase(parsed));
+        if (repaired.changed) v278PendingRepairNotice = repaired.report;
+        return repaired.data;
+      };
+
+      const v278LoadSaveBase = loadSave;
+      loadSave = function() {
+        try {
+          const raw = localStorage.getItem(SAVE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            const oldVersion = Number(parsed?.saveVersion || 0);
+            if (oldVersion < V278_SAVE_SCHEMA) {
+              localStorage.setItem(V278_BACKUP_KEY, raw);
+            }
+          }
+        } catch (error) {
+          console.warn("Pre-migration backup failed:", error);
+        }
+
+        const repaired = v278RepairSaveData(v278LoadSaveBase());
+        if (repaired.changed) v278PendingRepairNotice = repaired.report;
+        return repaired.data;
+      };
+
+      const v278SaveNowBase = saveNow;
+      saveNow = function() {
+        const repaired = v278RepairSaveData(save);
+        save = repaired.data;
+        save.saveVersion = V278_SAVE_SCHEMA;
+
+        /* Older wrappers write schema 27. Write once more after them. */
+        v278SaveNowBase();
+        save.saveVersion = V278_SAVE_SCHEMA;
+        localStorage.setItem(SAVE_KEY, JSON.stringify(save));
+      };
+
+      saveExportPayload = function() {
+        return {
+          app: "buzzris",
+          version: "v0.27.8",
+          saveVersion: V278_SAVE_SCHEMA,
+          saveKey: SAVE_KEY,
+          exportedAt: new Date().toISOString(),
+          save
+        };
+      };
+
+      function v278DirectScoreClaim(card) {
+        return (card.effects || []).some(effect => {
+          const text = String(effect || "").replace(/\s+/g, "");
+          if (!text.includes("👍")) return false;
+          if (
+            text.startsWith("次") ||
+            text.startsWith("毎T") ||
+            text.startsWith("毎") ||
+            text.includes("次👍") ||
+            text.includes("目標")
+          ) return false;
+          return true;
+        });
+      }
+
+      function v278VisualCardAudit() {
+        const host = document.createElement("div");
+        host.className = "audit-sandbox";
+        host.setAttribute("aria-hidden", "true");
+        host.innerHTML = cardPool.map((card, index) => `
+          <div data-audit-card="${escapeHtml(card.id)}">
+            ${baseDeckCardHtml(card.id, index)}
+          </div>
+        `).join("");
+        document.body.appendChild(host);
+
+        const issues = [];
+        host.querySelectorAll("[data-audit-card]").forEach(wrapper => {
+          const cardId = wrapper.dataset.auditCard;
+          [
+            [".deck-edit-name", "カード名"],
+            [".deck-score-row span", "スコア"],
+            [".deck-edit-effect", "効果"]
+          ].forEach(([selector, label]) => {
+            wrapper.querySelectorAll(selector).forEach(node => {
+              if (
+                node.scrollWidth > node.clientWidth + 1 ||
+                node.scrollHeight > node.clientHeight + 1
+              ) {
+                issues.push({
+                  severity: "warning",
+                  cardId,
+                  title: `${label}が表示枠を超過`,
+                  detail: String(node.textContent || "").trim()
+                });
+              }
+            });
+          });
+        });
+
+        host.remove();
+        return issues;
+      }
+
+      function v278RunCardAudit() {
+        const errors = [];
+        const warnings = [];
+        const passes = [];
+        const idCounts = new Map();
+        const onceCounts = new Map();
+
+        cardPool.forEach(card => {
+          idCounts.set(card.id, (idCounts.get(card.id) || 0) + 1);
+          if (card.onceKey) onceCounts.set(card.onceKey, (onceCounts.get(card.onceKey) || 0) + 1);
+        });
+
+        cardPool.forEach(card => {
+          const identity = `${card.icon || "◇"} ${card.name || card.id || "不明カード"}`;
+
+          if (
+            !card.id ||
+            !card.name ||
+            !card.icon ||
+            !Number.isFinite(Number(card.cost)) ||
+            !Array.isArray(card.effects) ||
+            typeof card.play !== "function"
+          ) {
+            errors.push({
+              severity: "error",
+              cardId: card.id || "unknown",
+              title: `${identity}：必須定義不足`,
+              detail: "id / name / icon / cost / effects / play を確認"
+            });
+          }
+
+          if ((idCounts.get(card.id) || 0) > 1) {
+            errors.push({
+              severity: "error",
+              cardId: card.id,
+              title: `${identity}：ID重複`,
+              detail: card.id
+            });
+          }
+
+          if (card.onceKey && (onceCounts.get(card.onceKey) || 0) > 1) {
+            errors.push({
+              severity: "error",
+              cardId: card.id,
+              title: `${identity}：1回限りキー重複`,
+              detail: card.onceKey
+            });
+          }
+
+          const formula = baseScoreLabelForCard(card);
+          const claimsDirectScore = v278DirectScoreClaim(card);
+
+          if (claimsDirectScore && !formula) {
+            errors.push({
+              severity: "error",
+              cardId: card.id,
+              title: `${identity}：基礎スコア式未登録`,
+              detail: (card.effects || []).join(" / ")
+            });
+          }
+
+          if (formula) {
+            const scenarios = [
+              { score: 1000, empathy: 0, flame: 0, hype: 1, idea: 0, trust: 0, playedThisTurn: 0 },
+              { score: 4000, empathy: 5, flame: 5, hype: 1.8, idea: 4, trust: 2, playedThisTurn: 3 }
+            ];
+
+            let producedNumber = false;
+            for (const scenario of scenarios) {
+              try {
+                const value = previewDirectScoreBase(card, { ...scenario });
+                if (Number.isFinite(value)) producedNumber = true;
+              } catch (error) {
+                errors.push({
+                  severity: "error",
+                  cardId: card.id,
+                  title: `${identity}：予測式で例外`,
+                  detail: String(error?.message || error)
+                });
+                break;
+              }
+            }
+
+            if (!producedNumber) {
+              warnings.push({
+                severity: "warning",
+                cardId: card.id,
+                title: `${identity}：標準監査条件では数値未生成`,
+                detail: `基礎式 ${formula}`
+              });
+            }
+          }
+
+          if (typeof card.canPlay === "function" && !card.cannotText) {
+            warnings.push({
+              severity: "warning",
+              cardId: card.id,
+              title: `${identity}：使用不可理由が未設定`,
+              detail: "cannotText を追加すると理解しやすい"
+            });
+          }
+
+          if ([...String(card.name || "")].length >= 8) {
+            warnings.push({
+              severity: "warning",
+              cardId: card.id,
+              title: `${identity}：長いカード名`,
+              detail: `${[...card.name].length}文字。自動縮小の監視対象`
+            });
+          }
+
+          const longEffect = (card.effects || []).find(effect => [...String(effect)].length >= 13);
+          if (longEffect) {
+            warnings.push({
+              severity: "warning",
+              cardId: card.id,
+              title: `${identity}：長い効果表記`,
+              detail: longEffect
+            });
+          }
+
+          if (
+            card.name &&
+            card.icon &&
+            Number.isFinite(Number(card.cost)) &&
+            Array.isArray(card.effects) &&
+            typeof card.play === "function" &&
+            (!claimsDirectScore || !!formula)
+          ) {
+            passes.push(card.id);
+          }
+        });
+
+        warnings.push(...v278VisualCardAudit());
+
+        const saveRepair = v278RepairSaveData(save);
+        const mismatches = save?.diagnostics?.scoreMismatches || [];
+
+        const report = {
+          version: "v0.27.8",
+          checkedAt: new Date().toISOString(),
+          totalCards: cardPool.length,
+          passedCards: [...new Set(passes)].length,
+          errors,
+          warnings,
+          saveHealth: {
+            ownedCards: save.ownedCards.length,
+            deckCards: save.deckInstances.length,
+            relics: save.relics.length,
+            quarantineCards: save.quarantine?.cards?.length || 0,
+            quarantineRelics: save.quarantine?.relics?.length || 0,
+            pendingRepairs: saveRepair.report.notes,
+            scoreMismatchCount: mismatches.length
+          },
+          scoreMismatches: mismatches.slice(-10)
+        };
+
+        v278LastAuditReport = report;
+        window.__buzzCardAuditReport = report;
+        save.diagnostics.lastCardAudit = {
+          checkedAt: report.checkedAt,
+          errors: errors.length,
+          warnings: warnings.length,
+          totalCards: report.totalCards
+        };
+        saveNow();
+
+        return report;
+      }
+
+      function v278AuditItemHtml(item) {
+        const typeClass =
+          item.severity === "error"
+            ? "error"
+            : item.severity === "repair"
+              ? "repair"
+              : "warning";
+        const icon =
+          item.severity === "error"
+            ? "⛔"
+            : item.severity === "repair"
+              ? "🛠️"
+              : "⚠️";
+
+        return `
+          <div class="audit-item ${typeClass}">
+            <div class="audit-icon">${icon}</div>
+            <div>
+              <strong>${escapeHtml(item.title)}</strong>
+              <span>${escapeHtml(item.detail || "")}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      function v278ShowAuditModal() {
+        const report = v278RunCardAudit();
+        const repairNotes = report.saveHealth.pendingRepairs.map(note => ({
+          severity: "repair",
+          title: "セーブ修復候補",
+          detail: note
+        }));
+
+        el.modal.innerHTML = `
+          <h2>カード・セーブ監査</h2>
+          <p>定義、基礎式、予測式、実表示幅、保存参照をまとめて検査した。</p>
+
+          <div class="audit-summary">
+            <div class="audit-meter"><b>全カード</b><strong>${report.totalCards}</strong></div>
+            <div class="audit-meter ok"><b>基礎検査通過</b><strong>${report.passedCards}</strong></div>
+            <div class="audit-meter ${report.errors.length ? "bad" : "ok"}"><b>エラー</b><strong>${report.errors.length}</strong></div>
+            <div class="audit-meter ${report.warnings.length ? "warn" : "ok"}"><b>注意</b><strong>${report.warnings.length}</strong></div>
+          </div>
+
+          <div class="save-health-chip">
+            💾 所持${report.saveHealth.ownedCards}枚 / 編成${report.saveHealth.deckCards}枚 /
+            レリック${report.saveHealth.relics}個 / スコア差分${report.saveHealth.scoreMismatchCount}件
+          </div>
+
+          <section class="audit-section">
+            <div class="audit-section-head"><span>優先修正</span><span>${report.errors.length}</span></div>
+            <div class="audit-list">
+              ${
+                report.errors.length
+                  ? report.errors.map(v278AuditItemHtml).join("")
+                  : `<div class="audit-empty">定義上の致命的エラーは見つからなかった。</div>`
+              }
+            </div>
+          </section>
+
+          <section class="audit-section">
+            <div class="audit-section-head"><span>可読性・条件の注意</span><span>${report.warnings.length}</span></div>
+            <div class="audit-list">
+              ${
+                report.warnings.length
+                  ? report.warnings.map(v278AuditItemHtml).join("")
+                  : `<div class="audit-empty">注意項目なし。</div>`
+              }
+            </div>
+          </section>
+
+          <section class="audit-section">
+            <div class="audit-section-head"><span>セーブ修復</span><span>${repairNotes.length}</span></div>
+            <div class="audit-list">
+              ${
+                repairNotes.length
+                  ? repairNotes.map(v278AuditItemHtml).join("")
+                  : `<div class="audit-empty">現在のセーブ参照は正常。</div>`
+              }
+            </div>
+          </section>
+
+          <div class="audit-footnote">
+            長い名称や効果は即バグではなく、自動縮小・詳細表示の監視対象として記録する。
+            プレイ後の「予測と実獲得」の差も最大30件まで保存する。
+          </div>
+
+          <div class="modal-actions">
+            <button class="action-btn" data-v278-export-audit type="button">監査JSON書出</button>
+            <button class="action-btn primary" data-v278-close-audit type="button">閉じる</button>
+          </div>
+        `;
+        openModal();
+      }
+
+      function v278ExportAudit() {
+        const report = v278LastAuditReport || v278RunCardAudit();
+        const blob = new Blob(
+          [JSON.stringify(report, null, 2)],
+          { type: "application/json" }
+        );
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `buzzris_card_audit_${safeDateStamp()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById("cardAuditBtn")?.addEventListener("click", v278ShowAuditModal);
+
+      el.modal.addEventListener("click", event => {
+        if (event.target.closest("[data-v278-export-audit]")) {
+          v278ExportAudit();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        if (event.target.closest("[data-v278-close-audit]")) {
+          closeModal();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      });
+
+      /* One card resolution at a time. This removes double-play races. */
+      const v278PlayCardBase = playCard;
+      playCard = async function(uid) {
+        if (v278PlayLock) return;
+
+        const card = state?.hand?.find(item => item.uid === uid);
+        if (!card) return;
+
+        const playable =
+          canPayCard(card) &&
+          (!card.canPlay || card.canPlay(state));
+
+        const predicted = playable
+          ? scorePreviewForCard(card)?.predicted ?? null
+          : null;
+        const beforeScore = Number(state.score || 0);
+
+        v278PlayLock = true;
+        document.body.classList.add("card-resolving");
+
+        try {
+          return await v278PlayCardBase(uid);
+        } finally {
+          const afterScore = Number(state?.score || 0);
+          const wasConsumed = !state?.hand?.some(item => item.uid === uid);
+
+          if (playable && wasConsumed && predicted !== null) {
+            const actual = Math.max(0, afterScore - beforeScore);
+            const tolerance = Math.max(1, Math.round(Math.abs(predicted) * 0.01));
+
+            if (Math.abs(actual - predicted) > tolerance) {
+              save.diagnostics = save.diagnostics || {};
+              save.diagnostics.scoreMismatches = Array.isArray(save.diagnostics.scoreMismatches)
+                ? save.diagnostics.scoreMismatches
+                : [];
+              save.diagnostics.scoreMismatches.push({
+                at: new Date().toISOString(),
+                cardId: card.id,
+                cardName: card.name,
+                predicted,
+                actual,
+                difference: actual - predicted,
+                stage: state?.stageIndex ?? null
+              });
+              save.diagnostics.scoreMismatches =
+                save.diagnostics.scoreMismatches.slice(-30);
+              saveNow();
+            }
+          }
+
+          setTimeout(() => {
+            v278PlayLock = false;
+            document.body.classList.remove("card-resolving");
+          }, 70);
+        }
+      };
+
+      /* Dragging must never turn into a delayed tap/detail action. */
+      el.hand.addEventListener("pointerdown", event => {
+        const card = event.target.closest(".card[data-uid]");
+        if (!card) return;
+        v278PointerWatch = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false
+        };
+      }, true);
+
+      window.addEventListener("pointermove", event => {
+        if (!v278PointerWatch || event.pointerId !== v278PointerWatch.pointerId) return;
+        const dx = event.clientX - v278PointerWatch.startX;
+        const dy = event.clientY - v278PointerWatch.startY;
+        if (Math.hypot(dx, dy) > 10) v278PointerWatch.moved = true;
+      }, true);
+
+      window.addEventListener("pointerup", event => {
+        if (!v278PointerWatch || event.pointerId !== v278PointerWatch.pointerId) return;
+        if (v278PointerWatch.moved) {
+          v278SuppressClickUntil = Date.now() + 320;
+        }
+        v278PointerWatch = null;
+      }, true);
+
+      window.addEventListener("pointercancel", () => {
+        if (v278PointerWatch?.moved) {
+          v278SuppressClickUntil = Date.now() + 320;
+        }
+        v278PointerWatch = null;
+      }, true);
+
+      document.addEventListener("click", event => {
+        if (Date.now() >= v278SuppressClickUntil) return;
+        if (
+          event.target.closest(".card[data-uid]") ||
+          event.target.closest("#cardInspector")
+        ) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+      }, true);
+
+      /* END v0.27.8 STABILITY AUDIT JS */
 
       save = loadSave();
       saveNow();
       renderHome();
       buzzUpdateToggles();
+
+      if (v278PendingRepairNotice && v278PendingRepairNotice.notes.length) {
+        setTimeout(() => {
+          showGameNotice(
+            "セーブ参照を修復",
+            v278PendingRepairNotice.notes.join(" / "),
+            "不明データは削除せず隔離領域へ退避した。"
+          );
+          v278PendingRepairNotice = null;
+        }, 260);
+      }
     })();
   </script>
   <script>
