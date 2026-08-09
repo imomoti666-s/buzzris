@@ -31,6 +31,7 @@ npm run serve
 - `assets/imomoti.png` — キャラクター画像（HTML内の重複埋め込みから分離）
 - `manifest.webmanifest` — PWAメタデータ
 - `service-worker.js` — オフラインキャッシュ
+- `CARD_AUDIT_v0_30_0.md` — 61枚・固有カード・セーブschemaの監査記録
 - `tests/smoke.mjs` — カード・キャラ・灰鳴コンボの静的/動作スモークテスト
 - `scripts/build.mjs` — `dist/`生成
 - `.github/workflows/ci.yml` — Private Actions上のテスト・ビルド
