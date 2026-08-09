@@ -29,6 +29,7 @@ npm run serve
 
 - `index.html` — ゲーム本体
 - `assets/imomoti.png` — キャラクター画像（HTML内の重複埋め込みから分離）
+- `icons/` — 「スマホを操作するimomoti」のPWAアイコン（192 / 512 / maskable）
 - `manifest.webmanifest` — PWAメタデータ
 - `service-worker.js` — オフラインキャッシュ
 - `CARD_AUDIT_v0_30_0.md` — 61枚・固有カード・セーブschemaの監査記録
@@ -37,3 +38,7 @@ npm run serve
 - `.github/workflows/ci.yml` — Private Actions上のテスト・ビルド
 
 GitHub Pagesは自動公開しません。リポジトリとActions artifactはPrivate設定を前提にしています。
+
+## ホーム画面への追加
+
+HTTPSで公開したURLをAndroid版Chromeで開き、メニューから「アプリをインストール」または「ホーム画面に追加」を選びます。インストール後は「スマホを操作するimomoti」のアイコンで、アドレスバーのない単独画面として起動します。

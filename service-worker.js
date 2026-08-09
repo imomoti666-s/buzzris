@@ -1,10 +1,13 @@
-const CACHE_NAME = "buzzris-v0-30-0-github-rebuild";
+const CACHE_NAME = "buzzris-v0-30-0-pwa-icons-1";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./service-worker.js",
-  "./assets/imomoti.png"
+  "./assets/imomoti.png",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "./icons/icon-maskable-512.png"
 ];
 
 self.addEventListener("install", event => {

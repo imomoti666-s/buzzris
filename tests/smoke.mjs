@@ -96,6 +96,18 @@ assert.deepEqual(missingScoreFormula, []);
 assert.match(html, /state\.stageBuffs\.trust > 0/);
 assert.match(html, /const V030_SAVE_SCHEMA = 30/);
 assert.equal(manifest.description, "バズリス v0.30.0 GITHUB REBUILD PWA");
-assert.match(worker, /buzzris-v0-30-0-github-rebuild/);
+assert.equal(manifest.id, "./");
+assert.equal(manifest.scope, "./");
+assert.equal(manifest.display, "standalone");
+assert.deepEqual(manifest.icons, [
+  { src: "./icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+  { src: "./icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+  { src: "./icons/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
+]);
+assert.match(html, /icons\/icon-192\.png/);
+assert.match(worker, /buzzris-v0-30-0-pwa-icons-1/);
+for (const icon of manifest.icons) {
+  assert.ok(worker.includes(icon.src), `${icon.src} must be pre-cached`);
+}
 
-console.log("Buzzris v0.30.0 smoke test passed: 61 cards, 3 character sets, Hainari chain OK.");
+console.log("Buzzris v0.30.0 smoke test passed: game data and PWA icon configuration OK.");

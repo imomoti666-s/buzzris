@@ -11,7 +11,8 @@ const files = [
   "CHANGELOG_v0_30_0.md",
   "CARD_AUDIT_v0_30_0.md",
   "CARD_AUDIT_v0_27_8.md",
-  "assets"
+  "assets",
+  "icons"
 ];
 
 await rm(out, { recursive: true, force: true });
