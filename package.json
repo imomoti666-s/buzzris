@@ -1,0 +1,19 @@
+{
+  "name": "buzzris",
+  "version": "0.30.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:static && npm run test:dom",
+    "test:static": "node tests/smoke.mjs",
+    "test:dom": "node tests/dom-smoke.mjs",
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

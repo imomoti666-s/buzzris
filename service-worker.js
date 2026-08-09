@@ -1,11 +1,10 @@
-const CACHE_NAME = "buzzris-v0-27-8-stability-audit";
+const CACHE_NAME = "buzzris-v0-30-0-github-rebuild";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./service-worker.js",
-  "./README.md",
-  "./CARD_AUDIT_v0_27_8.md"
+  "./assets/imomoti.png"
 ];
 
 self.addEventListener("install", event => {
